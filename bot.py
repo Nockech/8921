@@ -248,3 +248,4 @@ async def clear(ctx, amount= 100):
     await Bot.say(embed = cln)
 
 token = os.environ.get('BOT_TOKEN')
+Bot.run(str(token))
