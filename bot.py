@@ -13,7 +13,6 @@ global rain
 global come
 rain = True
 come = 'just_come'
-await Bot.change_presence(game=discord.Game(name= current_status))
 
 dly = ['!help', 'I am bot','how are you?', 'Nockech my sempai']
 players = {}
