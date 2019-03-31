@@ -16,9 +16,10 @@ come = 'just_come'
 
 dly = ['!help', 'I am bot','how are you?', 'Nockech my sempai']
 players = {}
+queues = {}
 join_role = "new"
 
-def check_queue():
+def check_queue(id):
     if queues[id] != []:
         player = queues[id].pop(0)
         players[id] = player
@@ -122,11 +123,10 @@ async def join(ctx):
     await Bot.say(embed= jn)
     await Bot.delete_message(ctx.message)
     
-
 @Bot.command(pass_context = True)
 async def leave(ctx):
-    lv = discord.Embed(title=":negative_squared_cross_mark: Disconnected" , color = 0x39d0d6)
-    lv.add_field(name= "" , value = "see ya next time!") 
+    lv = discord.Embed(title= "" , color = 0x39d0d6)
+    lv.add_field(name= ":negative_squared_cross_mark: Disconnected" , value = "see ya next time!") 
     server = ctx.message.server
     voice_client = Bot.voice_client_in(server)
     await Bot.delete_message(ctx.message)
@@ -137,18 +137,14 @@ async def leave(ctx):
 async def play(ctx,url):
     server = ctx.message.server
     voice_client = Bot.voice_client_in(server)
-    player = await voice_client.create_ytdl_player(url)
-    players[server.id] = player
-    player.start()
-
-@Bot.command(pass_context = True)
-async def add(ctx,url):
+    player = await voice_client.create_ytdl_player(url, ytdl_options={'default_search': 'auto'}, after= lambda : check_queue(server.id))
     if server.id in queues:
-        queues[server.id].append(player)   #next code may be unuseable:
+        queues[server.id].append(player)   
     else:
         queues[server.id] = [player]
     await Bot.say('Added to queue')
-
+    players[server.id] = player
+    player.start()
 
 @Bot.command(pass_context = True)
 async def pause(ctx):
@@ -216,7 +212,7 @@ async def rainon(ctx):
 async def ban(ctx, user: discord.Member):
     baan = True
     love = discord.Embed(title= "", color= 0xac5ae7 )
-    love.add_field(name = "No, i love my sempai" , value= ':two_hearts: {}: two_hearts: '.format(user.name))
+    love.add_field(name = "No, i love my sempai" , value= ':two_hearts: {} :two_hearts: '.format(user.name))
     if user.id == '399575084521488385':
         await Bot.say(embed = love)
         baan = False
