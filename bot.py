@@ -144,16 +144,6 @@ async def info(ctx, user: discord.User):
     await Bot.say(embed= emb)
 
 @Bot.command(pass_context = True)
-async def pause(ctx):
-    i = ctx.message.server.id
-    players[i].pause()
-
-@Bot.command(pass_context = True)
-async def stop(ctx):
-    i = ctx.message.server.id
-    players[i].stop()
-
-@Bot.command(pass_context = True)
 async def glyph(ctx):
     hen = discord.Embed(title= "", color= 0xca8ef1 )
     hen.set_thumbnail(url= "https://i.imgur.com/Ld8d2Vq.jpg")
