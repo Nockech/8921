@@ -13,11 +13,15 @@ global rain
 global come
 rain = True
 come = 'just_come'
+await Bot.change_presence(game=discord.Game(name= current_status))
 
 dly = ['!help', 'I am bot','how are you?', 'Nockech my sempai']
 players = {}
 queues = {}
 join_role = "new"
+
+players = {}
+queues = {}
 
 def check_queue(id):
     if queues[id] != []:
@@ -25,16 +29,42 @@ def check_queue(id):
         players[id] = player
         player.start()
 
-async def change_status():
-    await Bot.wait_until_ready()
-    msgs = cycle(dly)
+@Bot.event
+async def on_ready():
+    print("No errors , great job")
+    print("Bot is online")
 
-    while not Bot.is_closed:
-          current_status = next(msgs)
-          await Bot.change_presence(game=discord.Game(name= current_status))
-          await asyncio.sleep(15)
+@Bot.command(pass_context = True)
+async def join(ctx):
+    jn = discord.Embed(title= "", color= 0x39d0d6  )
+    jn.add_field(name = ":white_check_mark: Joined" , value= "waiting for commands")
+    chnl = ctx.message.author.voice.voice_channel
+    await Bot.join_voice_channel(chnl)
+    await Bot.say(embed= jn)
+    await Bot.delete_message(ctx.message)
 
-Bot.loop.create_task(change_status())
+@Bot.command(pass_context = True)
+async def leave(ctx):
+    lv = discord.Embed(title= "" , color = 0x39d0d6)
+    lv.add_field(name= ":negative_squared_cross_mark: Disconnected" , value = "see ya next time!") 
+    server = ctx.message.server
+    voice_client = Bot.voice_client_in(server)
+    await Bot.delete_message(ctx.message)
+    await voice_client.disconnect()
+    await Bot.say(embed= lv)
+
+@Bot.command(pass_context = True)
+async def play(ctx,url):
+    server = ctx.message.server
+    voice_client = Bot.voice_client_in(server)
+    player = await voice_client.create_ytdl_player(url, ytdl_options={'default_search': 'auto'}, after= lambda : check_queue(server.id))
+    if server.id in queues:
+        queues[server.id].append(player)
+    else:
+        queues[server.id] = [player]
+    await Bot.say('Added to queue')
+    players[server.id] = player
+    player.start()
 
 @Bot.event
 async def on_ready():
