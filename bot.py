@@ -194,13 +194,12 @@ async def ban(ctx, user: discord.Member):
     baan = True
     love = discord.Embed(title= "", color= 0xac5ae7 )
     love.add_field(name = "No, i love my sempai" , value= ':two_hearts: {} :two_hearts: '.format(user.name))
-    if user.id == '399575084521488385':
-        await Bot.say(embed = love)
-        baan = False
     bann = discord.Embed(title= "", color= 0xfc0202 )
     bann.add_field(name = ":no_entry_sign: Banned " , value= user.name)
     bann.set_footer(text= "Banned by: {}".format(ctx.message.author.name))
-    if ban == True:
+    if user.id == '399575084521488385':
+        await Bot.say(embed = love)
+    else :
         await Bot.say(embed= bann)
         await Bot.ban(user)
     await Bot.delete_message(ctx.message)
