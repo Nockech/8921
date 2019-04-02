@@ -117,7 +117,6 @@ music commands(still under development)
 `/ban <@user_name>` - ban user
 `/rainon/!rainoff` - on/off rainbow role
 `/clear <messages amount>` - clear chat 
-` `
 ''')
     await Bot.say(embed= commands)
 
