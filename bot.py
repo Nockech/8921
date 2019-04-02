@@ -78,16 +78,10 @@ async def on_member_join(member):
     await Bot.send_message(ctx.message.server)
 
 @Bot.command(pass_context = True)
-async def hello(ctx):
-    await Bot.say("hellllloooo :smirk: {}".format(ctx.message.author.mention))
-    await Bot.delete_message(ctx.message)
-
-@Bot.command(pass_context = True)
 async def help(ctx):
     commands = discord.Embed(title= "", color= 0x3079ec )
     commands.add_field(name= "{} All commands :".format(":page_facing_up:") , value= '''
 `/info <@user_name>` - info about user
-`/hello` - say hello to bot:upside_down:
 `/glyph` - sends my glyph in warframe ^w^
 `/inv` - send link to invite bot on your server
 `/join`, `!play <url>`, `!pause`, `!stop`, `!leave` -
@@ -154,7 +148,7 @@ async def glyph(ctx):
 async def inv(ctx):
     inv = discord.Embed(title = "", color= 0x3079ec )
     inv.set_author(name = "Click here to invite" , url = "https://discordapp.com/oauth2/authorize?client_id=505040895200985089&scope=bot&permissions=37088334")
-    inv.set_footer(text = "Bluerba BOT", icon_url = Bot.user.avatar_url)
+    inv.set_footer(text = Bot.user.name , icon_url = Bot.user.avatar_url)
     main = discord.Embed(title= "{} Sended! check pm".format(":mailbox_with_mail:"), color= 0x39d0d6 )
     main.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
     await Bot.delete_message(ctx.message)
