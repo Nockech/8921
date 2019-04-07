@@ -14,7 +14,6 @@ global come
 rain = True
 come = 'just_come'
 
-dly = ['!help', 'I am bot','how are you?', 'Nockech my sempai']
 players = {}
 queues = {}
 join_role = "new"
@@ -30,6 +29,7 @@ def check_queue(id):
 
 @Bot.event
 async def on_ready():
+    await Bot.change_presence(game = discord.game(name = '/help'))
     print("No errors , great job")
     print("Bot is online")
 
@@ -64,12 +64,6 @@ async def play(ctx,url):
     await Bot.say('Added to queue')
     players[server.id] = player
     player.start()
-
-@Bot.event
-async def on_ready():
-    await Bot.change_presence(game = discord.game(name = '/help'))
-    print("No errors , great job")
-    print("Bot is online")
 
 @Bot.event
 async def on_member_join(member):
