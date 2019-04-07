@@ -220,7 +220,11 @@ async def clear(ctx, amount= 100):
     async for message in Bot.logs_from(channel, limit= int(amount)):
         messages.append(message)
     await Bot.delete_messages(messages)
+    msg = await Bot.say(embed = cln)
     await Bot.say(embed = cln)
+    await asyncio.sleep(2)
+    await Bot.delete_message(msg)
+    
 
 token = os.environ.get('BOT_TOKEN')
 Bot.run(str(token))
