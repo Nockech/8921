@@ -67,6 +67,7 @@ async def play(ctx,url):
 
 @Bot.event
 async def on_ready():
+    await Bot.change_presence(game = discord.game(name = '/help'))
     print("No errors , great job")
     print("Bot is online")
 
@@ -139,7 +140,7 @@ async def info(ctx, user: discord.User):
 @Bot.command(pass_context = True)
 async def glyph(ctx):
     hen = discord.Embed(title= "", color= 0xca8ef1 )
-    hen.set_thumbnail(url= "https://i.imgur.com/Ld8d2Vq.jpg")
+    hen.set_image(url= "https://i.imgur.com/Ld8d2Vq.jpg")
     await Bot.say(embed= hen)
     await Bot.delete_message(ctx.message)
 
