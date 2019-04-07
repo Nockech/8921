@@ -48,9 +48,9 @@ async def leave(ctx):
     lv.add_field(name= ":negative_squared_cross_mark: Disconnected" , value = "see ya next time!") 
     server = ctx.message.server
     voice_client = Bot.voice_client_in(server)
+    await Bot.say(embed= lv)
     await Bot.delete_message(ctx.message)
     await voice_client.disconnect()
-    await Bot.say(embed= lv)
 
 @Bot.command(pass_context = True)
 async def play(ctx,url):
