@@ -221,8 +221,7 @@ async def clear(ctx, amount= 100):
         messages.append(message)
     await Bot.delete_messages(messages)
     msg = await Bot.say(embed = cln)
-    await Bot.say(embed = cln)
-    await asyncio.sleep(2)
+    await asyncio.sleep(3)
     await Bot.delete_message(msg)
     
 
