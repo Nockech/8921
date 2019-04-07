@@ -29,7 +29,7 @@ def check_queue(id):
 
 @Bot.event
 async def on_ready():
-    await Bot.change_presence(game = discord.game(name = '/help'))
+    await Bot.change_presence(game = discord.Game(name = "/help"))
     print("No errors , great job")
     print("Bot is online")
 
@@ -38,9 +38,9 @@ async def join(ctx):
     jn = discord.Embed(title= "", color= 0x39d0d6  )
     jn.add_field(name = ":white_check_mark: Joined" , value= "waiting for commands")
     chnl = ctx.message.author.voice.voice_channel
-    await Bot.join_voice_channel(chnl)
     await Bot.say(embed= jn)
     await Bot.delete_message(ctx.message)
+    await Bot.join_voice_channel(chnl)
 
 @Bot.command(pass_context = True)
 async def leave(ctx):
