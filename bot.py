@@ -87,7 +87,7 @@ music commands(still under development)
 `/ban <@user_name>` - ban user
 `/rainon/!rainoff` - on/off rainbow role
 `/clear <messages amount>` - clear chat 
-`/say <text>` - say in embed
+`/say <text>` - print text in embed
 ''')
     commands.set_footer(text= "in developing", icon_url = Bot.user.avatar_url )
     chat = discord.Embed(title= "{} Sended! check pm".format(":mailbox_with_mail:"), color= 0x39d0d6 )
@@ -112,7 +112,7 @@ music commands(still under development)
 `/ban <@user_name>` - ban user
 `/rainon/!rainoff` - on/off rainbow role
 `/clear <messages amount>` - clear chat 
-`/say <text>` - say in embed
+`/say <text>` - print text in embed
 ''')
     await Bot.say(embed= commands)
 
@@ -221,6 +221,7 @@ async def clear(ctx, amount= 100):
     await Bot.delete_message(msg)
 
 @Bot.command(pass_context = True)
+@commands.has_permissions(administrator= True)
 async def say(ctx):
     msg = discord.Embed(title= "{}".format((ctx.message.content)[4:]), color= 0x39d0d6, timestamp = ctx.message.timestamp )
     msg.set_footer(text= "{} | ".format(ctx.message.author.name), icon_url = ctx.message.author.avatar_url)
