@@ -29,7 +29,7 @@ def check_queue(id):
 
 @Bot.event
 async def on_ready():
-    await Bot.change_presence(game = discord.Game(name = "music | /help", type = 2 ))
+    await Bot.change_presence(game = discord.Game(name = "музыку | /help", type = 2 ))
     print("No errors , great job")
     print("Bot is online")
 
