@@ -18,9 +18,6 @@ players = {}
 queues = {}
 join_role = "new"
 
-players = {}
-queues = {}
-
 def check_queue(id):
     if queues[id] != []:
         player = queues[id].pop(0)
@@ -102,7 +99,6 @@ async def helphere(ctx):
     commands = discord.Embed(title= "", color= 0x3079ec )
     commands.add_field(name= "{} All commands :".format(":page_facing_up:") , value= '''
 `/info <@user_name>` - info about user
-`/hello` - say hello to bot:upside_down:
 `/glyph` - sends my glyph in warframe ^w^
 `/inv` - send link to invite bot on your server
 `/join`, `!play <url>`, `!pause`, `!stop`, `!leave` -
@@ -224,6 +220,8 @@ async def clear(ctx, amount= 100):
 @commands.has_permissions(administrator= True)
 async def say(ctx):
     msg = discord.Embed(title= "{}".format((ctx.message.content)[4:]), color= 0x39d0d6, timestamp = ctx.message.timestamp )
+    msg.set_footer(text= "{} | ".format(ctx.message.author.name), icon_url = ctx.message.author.avatar_url)
+    msg.add_field(name = ":no_entry_sign: Banned " , value= user.name)
     msg.set_footer(text= "{} | ".format(ctx.message.author.name), icon_url = ctx.message.author.avatar_url)
     await Bot.say(embed = msg)
     await Bot.delete_message(ctx.message)
