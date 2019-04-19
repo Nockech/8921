@@ -221,8 +221,6 @@ async def clear(ctx, amount= 100):
 async def say(ctx):
     msg = discord.Embed(title= "{}".format((ctx.message.content)[4:]), color= 0x39d0d6, timestamp = ctx.message.timestamp )
     msg.set_footer(text= "{} | ".format(ctx.message.author.name), icon_url = ctx.message.author.avatar_url)
-    msg.add_field(name = ":no_entry_sign: Banned " , value= user.name)
-    msg.set_footer(text= "{} | ".format(ctx.message.author.name), icon_url = ctx.message.author.avatar_url)
     await Bot.say(embed = msg)
     await Bot.delete_message(ctx.message)
 
