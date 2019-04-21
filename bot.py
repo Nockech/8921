@@ -220,7 +220,7 @@ async def clear(ctx, amount= 100):
 @commands.has_permissions(administrator= True)
 async def say(ctx):
     msg = discord.Embed(title= "{}".format((ctx.message.content)[4:]), color= 0x39d0d6, timestamp = ctx.message.timestamp )
-    msg.set_footer(text= "{} | ".format(ctx.message.author.name), icon_url = ctx.message.author.avatar_url)
+    msg.set_footer(text= "{}".format(ctx.message.author.name), icon_url = ctx.message.author.avatar_url)
     await Bot.say(embed = msg)
     await Bot.delete_message(ctx.message)
 
