@@ -122,7 +122,7 @@ async def info(ctx, user: discord.User):
         emb.add_field(name = "Playing right now: " , value = user.game, inline = False)
     emb.add_field(name = "Id:" , value= user.id, inline = False)
     emb.add_field(name = "Created account at:" , value = str(user.created_at)[:16], inline = False)
-    emb.add_field(name = "Roles:" , value = ", ".join([role.name.mention for role in user.roles]), inline = False)
+    emb.add_field(name = "Roles:" , value = " , @".join([role.name for role in user.roles]), inline = False)
     emb.set_thumbnail(url = user.avatar_url)
     emb.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
     await Bot.delete_message(ctx.message)
