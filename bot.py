@@ -115,14 +115,16 @@ music commands(still under development)
 @Bot.command(pass_context = True)
 async def info(ctx, user: discord.User):
     emb = discord.Embed(title= "{}".format(":information_source:"), color= 0x39d0d6  )
-    emb.add_field(name = "Name:" , value= user.name, inline = False)
-    emb.add_field(name = "Status:" , value= user.status, inline = False)
-    emb.add_field(name = "Joined at: " , value = str(user.joined_at)[:16], inline = False)
+    emb.add_field(name = "Name:" , value= user.name)
+    stat = user.status
+    if user.status == str('dnd') :
+        stat = "do not disturb"
+    emb.add_field(name = "Status:" , value= stat)
+    emb.add_field(name = "Joined at: " , value = user.joined_at.strftime("%#A, %#d %B %Y, %I:%M") , inline = False)
     if user.game != None:
         emb.add_field(name = "Playing right now: " , value = user.game, inline = False)
-    emb.add_field(name = "Id:" , value= user.id, inline = False)
-    emb.add_field(name = "Created account at:" , value = str(user.created_at)[:16], inline = False)
-    emb.add_field(name = "Roles:" , value = " , @".join([role.name for role in user.roles]), inline = False)
+    emb.add_field(name = "Created account at:" ,value = user.joined_at.strftime("%#A, %#d %B %Y, %I:%M"))
+    emb.add_field(name = "Roles:" , value = (str(", ").join([role.mention for role in user.roles]))[23:], inline = False)
     emb.set_thumbnail(url = user.avatar_url)
     emb.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
     await Bot.delete_message(ctx.message)
