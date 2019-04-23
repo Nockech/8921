@@ -117,12 +117,13 @@ async def info(ctx, user: discord.User):
     emb = discord.Embed(title= "{}".format(":information_source:"), color= 0x39d0d6  )
     emb.add_field(name = "Name:" , value= user.name)
     stat = user.status
-    if user.status == str('dnd') :
-        stat = "do not disturb"
+    if stat == str("dnd"):
+        stat = str("do not disturb")
     emb.add_field(name = "Status:" , value= stat)
-    emb.add_field(name = "Joined at: " , value = user.joined_at.strftime("%#A, %#d %B %Y, %I:%M") , inline = False)
+    emb.add_field(name = "Status:" , value= stat)
     if user.game != None:
         emb.add_field(name = "Playing right now: " , value = user.game, inline = False)
+    emb.add_field(name = "Joined at: " , value = user.joined_at.strftime("%#A, %#d %B %Y, %I:%M") , inline = False)
     emb.add_field(name = "Created account at:" ,value = user.joined_at.strftime("%#A, %#d %B %Y, %I:%M"))
     emb.add_field(name = "Roles:" , value = (str(", ").join([role.mention for role in user.roles]))[23:], inline = False)
     emb.set_thumbnail(url = user.avatar_url)
