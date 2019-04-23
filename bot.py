@@ -65,11 +65,9 @@ async def help(ctx):
     commands = discord.Embed(title= "", color= 0x3079ec )
     commands.add_field(name= "{} All commands :".format(":page_facing_up:") , value= '''
 `/info <@user_name>` - info about user
-`/glyph` - sends my glyph in warframe ^w^
+`/glyph` - sends my glyph in warframe 
 `/inv` - send link to invite bot on your server
-`/join`, `!play <url>`, `!pause`, `!stop`, `!leave` -
-music commands(still under development)
-`/helphere` - sends help in server chat
+`/help` - send command list in pm
 ''')
     commands.add_field(name= "{}Administrator commands :".format(":page_facing_up:") , value= '''
 `/ban <@user_name>` - ban user
@@ -90,10 +88,8 @@ async def helphere(ctx):
     commands = discord.Embed(title= "", color= 0x3079ec )
     commands.add_field(name= "{} All commands :".format(":page_facing_up:") , value= '''
 `/info <@user_name>` - info about user
-`/glyph` - sends my glyph in warframe ^w^
+`/glyph` - sends my glyph in warframe 
 `/inv` - send link to invite bot on your server
-`/join`, `!play <url>`, `!pause`, `!stop`, `!leave` -
-music commands(still under development)
 ''')
     commands.add_field(name= "{}Administrator commands :".format(":page_facing_up:") , value= '''
 `/ban <@user_name>` - ban user
@@ -108,7 +104,10 @@ async def info(ctx, user: discord.User):
     emb = discord.Embed(title= "{}".format(":information_source:"), color= 0x39d0d6  )
     if user.id == '399575084521488385':
         emb.add_field(name = "" , value = "This is my owner!"
-    emb.add_field(name = "Name:" , value= user.name)
+    ifbot = str("")
+    if user.bot == True:
+        ifbot = str("**BOT**")
+    emb.add_field(name = "Name:" , value= "{} {}".format(user.name,ifbot))
     stat = str(user.status)
     if stat == str("dnd"):
         stat = str("do not disturb")
