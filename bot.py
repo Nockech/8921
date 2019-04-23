@@ -116,10 +116,9 @@ music commands(still under development)
 async def info(ctx, user: discord.User):
     emb = discord.Embed(title= "{}".format(":information_source:"), color= 0x39d0d6  )
     emb.add_field(name = "Name:" , value= user.name)
-    stat = user.status
+    stat = str(user.status)
     if stat == str("dnd"):
         stat = str("do not disturb")
-    emb.add_field(name = "Status:" , value= stat)
     emb.add_field(name = "Status:" , value= stat)
     if user.game != None:
         emb.add_field(name = "Playing right now: " , value = user.game, inline = False)
