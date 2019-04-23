@@ -1,10 +1,8 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands import Bot
-import random
 import youtube_dl
 import asyncio
-from itertools import cycle
 import os
 
 Bot = commands.Bot(command_prefix= '/')
@@ -62,13 +60,6 @@ async def play(ctx,url):
     players[server.id] = player
     player.start()
 
-@Bot.event
-async def on_member_join(member):
-    global come
-    role = discord.utils.get(member.server.roles, name = come )
-    await Bot.add_roles(member, role)
-    await Bot.send_message(ctx.message.server)
-
 @Bot.command(pass_context = True)
 async def help(ctx):
     commands = discord.Embed(title= "", color= 0x3079ec )
@@ -115,6 +106,8 @@ music commands(still under development)
 @Bot.command(pass_context = True)
 async def info(ctx, user: discord.User):
     emb = discord.Embed(title= "{}".format(":information_source:"), color= 0x39d0d6  )
+    if user.id == '399575084521488385':
+        emb.add_field(name = "" , value = "This is my owner!"
     emb.add_field(name = "Name:" , value= user.name)
     stat = str(user.status)
     if stat == str("dnd"):
