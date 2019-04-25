@@ -24,7 +24,7 @@ def check_queue(id):
 
 @Bot.event
 async def on_ready():
-    await Bot.change_presence(game = discord.Game(name = "музыку | /help", type = 2 ))
+    await Bot.change_presence(game = discord.Game(name = "на семпая | /help", type = 3 ))
     print("No errors , great job")
     print("Bot is online")
 
@@ -103,7 +103,7 @@ async def helphere(ctx):
 async def info(ctx, user: discord.User):
     emb = discord.Embed(title= "{}".format(":information_source:"), color= 0x39d0d6  )
     if user.id == '399575084521488385':
-        emb.add_field(name = "" , value = "This is my owner!")
+        emb.add_field(name = "__This is my owner!__" , value = "")
     ifbot = str("")
     if user.bot == True:
         ifbot = str("**BOT**")
