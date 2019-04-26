@@ -24,7 +24,7 @@ def check_queue(id):
 
 @Bot.event
 async def on_ready():
-    await Bot.change_presence(game = discord.Game(name = "на семпая | /help", type = 3 ))
+    await Bot.change_presence(game = discord.Game(name = "хозяина | /help", type = 2 ))
     print("No errors , great job")
     print("Bot is online")
 
