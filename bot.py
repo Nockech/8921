@@ -103,7 +103,7 @@ async def helphere(ctx):
 async def info(ctx, user: discord.User):
     emb = discord.Embed(title= "{}".format(":information_source:"), color= 0x39d0d6  )
     if user.id == '399575084521488385':
-        emb.add_field(name = "__This is my owner!__" , value = "")
+        emb.add_field(name = "\_\_This is my owner!\_\_" , value = "}}} ")
     ifbot = str("")
     if user.bot == True:
         ifbot = str("**BOT**")
