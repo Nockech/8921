@@ -24,7 +24,7 @@ def check_queue(id):
 
 @Bot.event
 async def on_ready():
-    await Bot.change_presence(game = discord.Game(name = "хозяина | /help", type = 2 ))
+    await Bot.change_presence(game = discord.Game(name = "operator | /help", type = 2 ))
     print("No errors , great job")
     print("Bot is online")
 
@@ -178,7 +178,7 @@ async def rainon(ctx):
 async def ban(ctx, user: discord.Member):
     baan = True
     love = discord.Embed(title= "", color= 0xac5ae7 )
-    love.add_field(name = "No, i love my sempai" , value= ':two_hearts: {} :two_hearts: '.format(user.name))
+    love.add_field(name = "No, it's my Operator!" , value= ':two_hearts: {} :two_hearts: '.format(user.name))
     bann = discord.Embed(title= "", color= 0xfc0202 )
     bann.add_field(name = ":no_entry_sign: Banned " , value= user.name)
     bann.set_footer(text= "Banned by: {}".format(ctx.message.author.name))
