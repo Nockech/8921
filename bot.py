@@ -10,54 +10,6 @@ Bot.remove_command('help')
 global rain
 rain = True
 
-players = {}
-queues = {}
-join_role = "new"
-
-def check_queue(id):
-    if queues[id] != []:
-        player = queues[id].pop(0)
-        players[id] = player
-        player.start()
-
-@Bot.event
-async def on_ready():
-    await Bot.change_presence(game = discord.Game(name = "operator | /help", type = 2 ))
-    print("No errors , great job")
-    print("Bot is online")
-
-@Bot.command(pass_context = True)
-async def join(ctx):
-    jn = discord.Embed(title= "", color= 0x39d0d6  )
-    jn.add_field(name = ":white_check_mark: Joined" , value= "waiting for commands")
-    chnl = ctx.message.author.voice.voice_channel
-    await Bot.say(embed= jn)
-    await Bot.delete_message(ctx.message)
-    await Bot.join_voice_channel(chnl)
-
-@Bot.command(pass_context = True)
-async def leave(ctx):
-    lv = discord.Embed(title= "" , color = 0x39d0d6)
-    lv.add_field(name= ":negative_squared_cross_mark: Disconnected" , value = "see ya next time!") 
-    server = ctx.message.server
-    voice_client = Bot.voice_client_in(server)
-    await Bot.say(embed= lv)
-    await Bot.delete_message(ctx.message)
-    await voice_client.disconnect()
-
-@Bot.command(pass_context = True)
-async def play(ctx,url):
-    server = ctx.message.server
-    voice_client = Bot.voice_client_in(server)
-    player = await voice_client.create_ytdl_player(url, ytdl_options={'default_search': 'auto'}, after= lambda : check_queue(server.id))
-    if server.id in queues:
-        queues[server.id].append(player)
-    else:
-        queues[server.id] = [player]
-    await Bot.say('Added to queue')
-    players[server.id] = player
-    player.start()
-
 @Bot.command(pass_context = True)
 async def help(ctx):
     commands = discord.Embed(title= "", color= 0x3079ec )
@@ -77,8 +29,8 @@ async def help(ctx):
     chat = discord.Embed(title= "{} Sended! check pm".format(":mailbox_with_mail:"), color= 0x39d0d6 )
     chat.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
     await Bot.delete_message(ctx.message)
-    await Bot.send_message(ctx.message.author, embed= commands)
-    await Bot.send(embed= chat)
+    await ctx.send_message(ctx.message.author, embed= commands)
+    await ctx.send(embed= chat)
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator= True)
@@ -95,7 +47,7 @@ async def helphere(ctx):
 `/clear <messages amount>` - clear chat 
 `/say <text>` - print text in embed
 ''')
-    await Bot.send(embed= commands)
+    await ctx.send(embed= commands)
 
 @Bot.command(pass_context = True)
 async def info(ctx, user: discord.User):
@@ -118,13 +70,13 @@ async def info(ctx, user: discord.User):
     emb.set_thumbnail(url = user.avatar_url)
     emb.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
     await Bot.delete_message(ctx.message)
-    await Bot.send(embed= emb)
+    await ctx.send(embed= emb)
 
 @Bot.command(pass_context = True)
 async def glyph(ctx):
     hen = discord.Embed(title= "", color= 0xca8ef1 )
     hen.set_image(url= "https://i.imgur.com/Ld8d2Vq.jpg")
-    await Bot.send(embed= hen)
+    await ctx.send(embed= hen)
     await Bot.delete_message(ctx.message)
 
 @Bot.command(pass_context = True)
@@ -135,8 +87,8 @@ async def inv(ctx):
     main = discord.Embed(title= "{} Sended! check pm".format(":mailbox_with_mail:"), color= 0x39d0d6 )
     main.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
     await Bot.delete_message(ctx.message)
-    await Bot.send(embed = main)
-    await Bot.send_message(ctx.message.author, embed= inv)
+    await ctx.send(embed = main)
+    await ctx.send_message(ctx.message.author, embed= inv)
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator= True)
@@ -204,7 +156,7 @@ async def clear(ctx, amount= 100):
     async for message in Bot.logs_from(channel, limit= int(amount)):
         messages.append(message)
     await Bot.delete_messages(messages)
-    msg = await Bot.send(embed = cln)
+    msg = await ctx.send(embed = cln)
     await asyncio.sleep(3)
     await Bot.delete_message(msg)
 
@@ -213,7 +165,7 @@ async def clear(ctx, amount= 100):
 async def say(ctx):
     msg = discord.Embed(title= "{}".format((ctx.message.content)[4:]), color= 0x39d0d6, timestamp = ctx.message.timestamp )
     msg.set_footer(text= "{}".format(ctx.message.author.name), icon_url = ctx.message.author.avatar_url)
-    await Bot.send(embed = msg)
+    await ctx.send(embed = msg)
     await Bot.delete_message(ctx.message)
 
 token = os.environ.get('BOT_TOKEN')
