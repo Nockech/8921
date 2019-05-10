@@ -8,9 +8,7 @@ import os
 Bot = commands.Bot(command_prefix= '/')
 Bot.remove_command('help')
 global rain
-global come
 rain = True
-come = 'just_come'
 
 players = {}
 queues = {}
@@ -80,7 +78,7 @@ async def help(ctx):
     chat.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
     await Bot.delete_message(ctx.message)
     await Bot.send_message(ctx.message.author, embed= commands)
-    await Bot.say(embed= chat)
+    await Bot.send(embed= chat)
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator= True)
@@ -97,7 +95,7 @@ async def helphere(ctx):
 `/clear <messages amount>` - clear chat 
 `/say <text>` - print text in embed
 ''')
-    await Bot.say(embed= commands)
+    await Bot.send(embed= commands)
 
 @Bot.command(pass_context = True)
 async def info(ctx, user: discord.User):
@@ -120,13 +118,13 @@ async def info(ctx, user: discord.User):
     emb.set_thumbnail(url = user.avatar_url)
     emb.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
     await Bot.delete_message(ctx.message)
-    await Bot.say(embed= emb)
+    await Bot.send(embed= emb)
 
 @Bot.command(pass_context = True)
 async def glyph(ctx):
     hen = discord.Embed(title= "", color= 0xca8ef1 )
     hen.set_image(url= "https://i.imgur.com/Ld8d2Vq.jpg")
-    await Bot.say(embed= hen)
+    await Bot.send(embed= hen)
     await Bot.delete_message(ctx.message)
 
 @Bot.command(pass_context = True)
@@ -137,7 +135,7 @@ async def inv(ctx):
     main = discord.Embed(title= "{} Sended! check pm".format(":mailbox_with_mail:"), color= 0x39d0d6 )
     main.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
     await Bot.delete_message(ctx.message)
-    await Bot.say(embed = main)
+    await Bot.send(embed = main)
     await Bot.send_message(ctx.message.author, embed= inv)
 
 @Bot.command(pass_context = True)
@@ -150,7 +148,7 @@ async def rainoff(ctx):
     await Bot.edit_role(ctx.message.server, rol , colour= discord.Colour.gold())
     off = discord.Embed(title= " ", color= 0x3079ec)
     off.add_field(name = "{}".format(":rainbow: Rainbow disabled") , value= "no more chaos")
-    await Bot.say(embed= off)
+    await Bot.send(embed= off)
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator= True)
@@ -161,7 +159,7 @@ async def rainon(ctx):
     o = discord.Embed(title= " ", color= 0x3079ec)
     o.add_field(name = "{}".format(":rainbow: Rainbow on!") , value= "Yeah ,lets get this party started")
     o.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
-    await Bot.say(embed= o)
+    await Bot.send(embed= o)
     await Bot.delete_message(ctx.message)
     while rain == True:
         await Bot.edit_role(ctx.message.server, rol , colour= discord.Colour.red())
@@ -183,9 +181,9 @@ async def ban(ctx, user: discord.Member):
     bann.add_field(name = ":no_entry_sign: Banned " , value= user.name)
     bann.set_footer(text= "Banned by: {}".format(ctx.message.author.name))
     if user.id == '399575084521488385':
-        await Bot.say(embed = love)
+        await Bot.send(embed = love)
     else :
-        await Bot.say(embed= bann)
+        await Bot.send(embed= bann)
         await Bot.ban(user)
     await Bot.delete_message(ctx.message)
 
@@ -206,7 +204,7 @@ async def clear(ctx, amount= 100):
     async for message in Bot.logs_from(channel, limit= int(amount)):
         messages.append(message)
     await Bot.delete_messages(messages)
-    msg = await Bot.say(embed = cln)
+    msg = await Bot.send(embed = cln)
     await asyncio.sleep(3)
     await Bot.delete_message(msg)
 
@@ -215,7 +213,7 @@ async def clear(ctx, amount= 100):
 async def say(ctx):
     msg = discord.Embed(title= "{}".format((ctx.message.content)[4:]), color= 0x39d0d6, timestamp = ctx.message.timestamp )
     msg.set_footer(text= "{}".format(ctx.message.author.name), icon_url = ctx.message.author.avatar_url)
-    await Bot.say(embed = msg)
+    await Bot.send(embed = msg)
     await Bot.delete_message(ctx.message)
 
 token = os.environ.get('BOT_TOKEN')
