@@ -89,57 +89,7 @@ async def say(ctx):
     msg.set_footer(text= "{}".format(ctx.message.author.name))
     await ctx.send('',embed = msg)
 
-#=до=этой=отметки=все=робит==============================================================================================================
 
-@Bot.command(pass_context = True)
-async def inv(ctx):
-    inv = discord.Embed(title = "", color= 0x3079ec )
-    inv.set_author(name = "Click here to invite" , url = "https://discordapp.com/oauth2/authorize?client_id=505040895200985089&scope=bot&permissions=37088334")
-    inv.set_footer(text = Bot.user.name , icon_url = Bot.user.avatar_url)
-    main = discord.Embed(title= "{} Sended! check pm".format(":mailbox_with_mail:"), color= 0x39d0d6 )
-    main.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
-    await Bot.delete_message(ctx.message)
-    await ctx.send(embed = main)
-    await ctx.send_message(ctx.message.author, embed= inv)
-
-
-
-@Bot.command(pass_context = True)
-@commands.has_permissions(administrator= True)
-async def ban(ctx, user: discord.Member):
-    baan = True
-    love = discord.Embed(title= "", color= 0xac5ae7 )
-    love.add_field(name = "No, it's my Operator!" , value= ':two_hearts: {} :two_hearts: '.format(user.name))
-    bann = discord.Embed(title= "", color= 0xfc0202 )
-    bann.add_field(name = ":no_entry_sign: Banned " , value= user.name)
-    bann.set_footer(text= "Banned by: {}".format(ctx.message.author.name))
-    if user.id == '399575084521488385':
-        await Bot.send(embed = love)
-    else :
-        await Bot.send(embed= bann)
-        await Bot.ban(user)
-    await Bot.delete_message(ctx.message)
-
-@Bot.command(pass_context = True)
-@commands.has_permissions(administrator= True)
-async def clear(ctx, amount= 100):
-    channel = ctx.message.channel
-    messages = []
-    if amount <= 10:
-        now = "Dont waste my time"
-    elif amount <= 50:
-        now = "Thats all?"
-    elif amount >= 90:
-        now = "Big clear, buddy"
-    elif amount >= 50:
-        now = "Good cleaning"
-    cln = discord.Embed(title= "Messages cleared: {} .{}".format(amount, now), color= 0x39d0d6 )
-    async for message in Bot.logs_from(channel, limit= int(amount)):
-        messages.append(message)
-    await Bot.delete_messages(messages)
-    msg = await ctx.send(embed = cln)
-    await asyncio.sleep(3)
-    await Bot.delete_message(msg)
 
 token = os.environ.get('BOT_TOKEN')
 Bot.run(str(token))
