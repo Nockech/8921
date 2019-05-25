@@ -3,4 +3,4 @@ aiohttp
 websockets
 chardet
 asyncio
-git+https://github.com/Rapptz/discord.py/tree/master
+https://github.com/Rapptz/discord.py/tree/master
