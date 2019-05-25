@@ -1,4 +1,4 @@
-https://github.com/Rapptz/discord.py@await
+git+https://github.com/Rapptz/discord.py@rewrite
 aiohttp
 websockets
 chardet
