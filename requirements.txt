@@ -1,4 +1,4 @@
-https://github.com/Rapptz/discord.py
+https://github.com/Rapptz/discord.py@await
 aiohttp
 websockets
 chardet
