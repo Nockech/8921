@@ -1,21 +1,53 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands import Bot
-import youtube_dl
 import asyncio
 import os
 
 Bot = commands.Bot(command_prefix= '/')
 Bot.remove_command('help')
-global rain
-rain = True
+
+global create
+
+global create, create_id 
+
+create = 'test'
+create_id = '557569433191710720'
+
+@Bot.event
+async def on_ready():
+    await Bot.change_presence(status=discord.Status.idle, activity=discord.Game('Cosmic Background radiation'))
+
+@Bot.event
+async def on_voice_state_update(member, before, after):
+    global create, create_id
+    guild = member.guild
+    cat = discord.utils.get(member.guild.voice_channels, name= create)
+    try:
+        if after.channel.id == create_id:
+            namechannel = '💻 ' + member.name + ' party'
+            await guild.create_voice_channel(name= namechannel, category= cat.category)
+            channel = discord.utils.get(member.guild.voice_channels, name= namechannel)
+            channel_id = channel.id
+            overwrite = discord.PermissionOverwrite()
+            overwrite.manage_channels = True
+            await channel.set_permissions(member, overwrite=overwrite)
+            await asyncio.sleep(0.1)
+            await member.edit(voice_channel= channel)
+            status = True
+            while status:
+                if len(channel.members) == 0:
+                    await asyncio.sleep(20)
+                    await channel.delete()
+                    status = False
+    except AttributeError:
+        pass
 
 @Bot.command(pass_context = True)
 async def help(ctx):
     commands = discord.Embed(title= "", color= 0x3079ec )
     commands.add_field(name= "{} All commands :".format(":page_facing_up:") , value= '''
 `/info <@user_name>` - info about user
-`/glyph` - sends my glyph in warframe 
 `/inv` - send link to invite bot on your server
 `/help` - send command list in pm
 ''')
@@ -25,59 +57,39 @@ async def help(ctx):
 `/clear <messages amount>` - clear chat 
 `/say <text>` - print text in embed
 ''')
-    commands.set_footer(text= "in developing", icon_url = Bot.user.avatar_url )
-    chat = discord.Embed(title= "{} Sended! check pm".format(":mailbox_with_mail:"), color= 0x39d0d6 )
-    chat.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
-    await Bot.delete_message(ctx.message)
-    await ctx.send_message(ctx.message.author, embed= commands)
-    await ctx.send(embed= chat)
-
-@Bot.command(pass_context = True)
-@commands.has_permissions(administrator= True)
-async def helphere(ctx):
-    commands = discord.Embed(title= "", color= 0x3079ec )
-    commands.add_field(name= "{} All commands :".format(":page_facing_up:") , value= '''
-`/info <@user_name>` - info about user
-`/glyph` - sends my glyph in warframe 
-`/inv` - send link to invite bot on your server
-''')
-    commands.add_field(name= "{}Administrator commands :".format(":page_facing_up:") , value= '''
-`/ban <@user_name>` - ban user
-`/rainon/!rainoff` - on/off rainbow role
-`/clear <messages amount>` - clear chat 
-`/say <text>` - print text in embed
-''')
+    commands.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
     await ctx.send(embed= commands)
 
 @Bot.command(pass_context = True)
-async def info(ctx, user: discord.User):
+async def info(ctx , user: discord.Member ):  #member: discord.Member
     emb = discord.Embed(title= "{}".format(":information_source:"), color= 0x39d0d6  )
-    if user.id == '399575084521488385':
-        emb.add_field(text = "This is my owner!" , value = "__ __")
-    ifbot = str("")
+    ifbot = ""
     if user.bot == True:
         ifbot = str("**BOT**")
     emb.add_field(name = "Name:" , value= "{} {}".format(user.name,ifbot))
-    stat = str(user.status)
+    if user.id == '399575084521488385':
+        emb.add_field(text = "This is my owner!" , value = "__g __")
+    stat = str(user.activity)
     if stat == str("dnd"):
         stat = str("do not disturb")
     emb.add_field(name = "Status:" , value= stat)
-    if user.game != None:
-        emb.add_field(name = "Playing right now: " , value = user.game, inline = False)
+    if user.activity != None:
+        emb.add_field(name = "Playing right now: " , value = user.activity, inline = False)
     emb.add_field(name = "Joined server at: " , value = user.joined_at.strftime("%#A, %#d %B %Y, %I:%M") , inline = False)
     emb.add_field(name = "Created account at:" ,value = user.joined_at.strftime("%#A, %#d %B %Y, %I:%M"))
     emb.add_field(name = "Roles:" , value = (str(", ").join([role.mention for role in user.roles]))[23:], inline = False)
     emb.set_thumbnail(url = user.avatar_url)
     emb.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
-    await Bot.delete_message(ctx.message)
     await ctx.send(embed= emb)
 
 @Bot.command(pass_context = True)
-async def glyph(ctx):
-    hen = discord.Embed(title= "", color= 0xca8ef1 )
-    hen.set_image(url= "https://i.imgur.com/Ld8d2Vq.jpg")
-    await ctx.send(embed= hen)
-    await Bot.delete_message(ctx.message)
+@commands.has_permissions(administrator= True)
+async def say(ctx):
+    msg = discord.Embed(title= "{}".format((ctx.message.content)[4:]), color= 0x39d0d6 )
+    msg.set_footer(text= "{}".format(ctx.message.author.name))
+    await ctx.send('',embed = msg)
+
+#=до=этой=отметки=все=робит==============================================================================================================
 
 @Bot.command(pass_context = True)
 async def inv(ctx):
@@ -90,38 +102,7 @@ async def inv(ctx):
     await ctx.send(embed = main)
     await ctx.send_message(ctx.message.author, embed= inv)
 
-@Bot.command(pass_context = True)
-@commands.has_permissions(administrator= True)
-async def rainoff(ctx):
-    global rain
-    rain = False
-    rol = discord.utils.get(ctx.message.server.roles, name ='rainbow')
-    await Bot.delete_message(ctx.message)
-    await Bot.edit_role(ctx.message.server, rol , colour= discord.Colour.gold())
-    off = discord.Embed(title= " ", color= 0x3079ec)
-    off.add_field(name = "{}".format(":rainbow: Rainbow disabled") , value= "no more chaos")
-    await Bot.send(embed= off)
 
-@Bot.command(pass_context = True)
-@commands.has_permissions(administrator= True)
-async def rainon(ctx):
-    global rain
-    rol = discord.utils.get(ctx.message.server.roles, name ='rainbow')
-    rain = True
-    o = discord.Embed(title= " ", color= 0x3079ec)
-    o.add_field(name = "{}".format(":rainbow: Rainbow on!") , value= "Yeah ,lets get this party started")
-    o.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
-    await Bot.send(embed= o)
-    await Bot.delete_message(ctx.message)
-    while rain == True:
-        await Bot.edit_role(ctx.message.server, rol , colour= discord.Colour.red())
-        await asyncio.sleep(1)
-        await Bot.edit_role(ctx.message.server, rol , colour= discord.Colour.green())
-        await asyncio.sleep(1)
-        await Bot.edit_role(ctx.message.server, rol , colour= discord.Colour.blue())
-        await asyncio.sleep(1)
-        await Bot.edit_role(ctx.message.server, rol , colour= discord.Colour.gold())
-        await asyncio.sleep(1)
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator= True)
@@ -159,14 +140,6 @@ async def clear(ctx, amount= 100):
     msg = await ctx.send(embed = cln)
     await asyncio.sleep(3)
     await Bot.delete_message(msg)
-
-@Bot.command(pass_context = True)
-@commands.has_permissions(administrator= True)
-async def say(ctx):
-    msg = discord.Embed(title= "{}".format((ctx.message.content)[4:]), color= 0x39d0d6, timestamp = ctx.message.timestamp )
-    msg.set_footer(text= "{}".format(ctx.message.author.name), icon_url = ctx.message.author.avatar_url)
-    await ctx.send(embed = msg)
-    await Bot.delete_message(ctx.message)
 
 token = os.environ.get('BOT_TOKEN')
 Bot.run(str(token))
