@@ -9,8 +9,8 @@ Bot.remove_command('help')
 
 global create, create_id 
 
-create = 'test'
-create_id = 557569433191710720
+create = 'создать пати 🔨'
+create_id = 575710726459752460
 
 @Bot.event
 async def on_ready():
