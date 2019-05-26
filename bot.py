@@ -60,7 +60,7 @@ async def help(ctx):
     await ctx.send(embed= commands)
 
 @Bot.command(pass_context = True)
-async def info(ctx , user: discord.Member ):  #member: discord.Member
+async def info(ctx , user: discord.Member ):
     emb = discord.Embed(title= "{}".format(":information_source:"), color= 0x39d0d6  )
     ifbot = ""
     if user.bot == True:
