@@ -16,5 +16,8 @@ create_id = 557569433191710720
 async def on_ready():
     await Bot.change_presence(status=discord.Status.idle, activity=discord.Game('Cosmic Background radiation'))
 
-token = os.environ.get('BOT_TOKEN')
-Bot.run(str(token))
+    
+#token = os.environ.get('BOT_TOKEN')
+#Bot.run(str(token))
+
+Bot.run('NTYxNzgwMjk0OTU3NjYyMjA5.XLNcKA.fBgrDC4jNJlWYYM2-g3Ii81WD9o')
