@@ -130,7 +130,5 @@ async def clear(ctx, amount= 100):
     await ctx.channel.purge(limit = amount)
     await ctx.send(embed=cln)
 
-#token = os.environ.get('BOT_TOKEN')
-#Bot.run(str(token))
-
-Bot.run('NTYxNzgwMjk0OTU3NjYyMjA5.XLNcKA.fBgrDC4jNJlWYYM2-g3Ii81WD9o')
+token = os.environ.get('BOT_TOKEN')
+Bot.run(str(token))
