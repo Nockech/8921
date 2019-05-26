@@ -42,7 +42,6 @@ async def on_voice_state_update(member, before, after):
     except AttributeError:
         pass
 
-
 @Bot.command(pass_context = True)
 async def help(ctx):
     commands = discord.Embed(title= "", color= 0x3079ec )
@@ -56,7 +55,7 @@ async def help(ctx):
 `/clear <messages amount>` - clear chat 
 `/say <text>` - print text in embed
 ''')
-    commands.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
+    commands.set_footer(text= "{}".format(Bot.user.display_name),icon_url= Bot.user.avatar_url )
     await ctx.send(embed= commands)
     await ctx.message.delete()
 
@@ -83,7 +82,6 @@ async def info(ctx , user: discord.Member ):  #member: discord.Member
     await ctx.send(embed= emb)
     await ctx.message.delete()
 
-
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator= True)
 async def say(ctx):
@@ -105,7 +103,7 @@ async def inv(ctx):
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator= True)
-async def ban(ctx, user: discord.Member, time = None, reason = None):
+async def ban(ctx, user: discord.Member, *, reason = None):
     love = discord.Embed(title= "", color= 0xac5ae7 )
     love.add_field(name = "No, it's my Operator!" , value= user.name)
     bann = discord.Embed(title= "", color= 0xfc0202 )
@@ -113,7 +111,7 @@ async def ban(ctx, user: discord.Member, time = None, reason = None):
     if reason == None:
         rsn = "No reason given"
     bann.add_field(name = ":no_entry_sign: Banned {}".format(rsn) , value= user.name)
-    bann.set_footer(text= "Banned by: {} on time: days".format(ctx.message.author.name))
+    bann.set_footer(text= "Banned by: {}".format(ctx.message.author.name))
     if user.id == 399575084521488385:
         await ctx.send(embed = love)
         await ctx.message.delete()
@@ -138,4 +136,4 @@ async def clear(ctx, amount= 100):
     await ctx.send(embed=cln)
 
 token = os.environ.get('BOT_TOKEN')
-Bot.run(str(token))
+Bot.run(str(token)) 
