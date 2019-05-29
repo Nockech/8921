@@ -5,7 +5,6 @@
     "require": {
 	"laralum/laralum": "1.*"
     },
-    "license": "MIT",
     "authors": [
         {
             "name": "Erik Campobadal",
