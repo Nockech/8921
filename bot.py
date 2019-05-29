@@ -87,8 +87,10 @@ async def ban(ctx, user: discord.Member, reason= None):
     love = discord.Embed(title= "", color= 0xac5ae7 )
     love.add_field(name = "No, it's my Operator!" , value= user.name)
     bann = discord.Embed(title= "", color= 0xfc0202 )
-    bann.add_field(name = ":no_entry_sign: Banned {}".format(user.name) , value= 'Reason: {}'.format(rsn))
-    bann.set_footer(text= "Banned by: {}".format(ctx.message.author.name))
+    bann.add_field(name = ":no_entry_sign: Banned {}".format(user.name) , value= '''
+    Banned by: {}
+    Reason: {}'''.format(ctx.message.author.name, rsn))
+    bann.set_image(url = "https://i.imgur.com/HaVYQIX.png")
     if user.id == 399575084521488385:
         bn = False
         await ctx.send(embed = love)
