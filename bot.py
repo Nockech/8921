@@ -21,21 +21,20 @@ async def on_voice_state_update(member, before, after):
     global create
     guild = member.guild
     cat = discord.utils.get(member.guild.voice_channels, name= create)
-    namechannel = '💻 ' + member.name + ' party'
+    namechannel = str('💻 ' + member.name + ' party')
     await guild.create_voice_channel(name= namechannel, category= cat.category)
     channel = discord.utils.get(member.guild.voice_channels, name= namechannel)
-    channel = discord.utils.get(member.guild.voice_channels, name= namechannel)
-    await asyncio.sleep(0.1)
     await member.edit(voice_channel= channel)
     status = True
     while status:
         if len(channel.members) == 0:
-            await asyncio.sleep(20)
             await channel.delete()
             status = False
 
 @Bot.command(pass_context = True)
 async def help(ctx):
+    main = discord.Embed(title= "{} Sended! check pm".format(":mailbox_with_mail:"), color= 0x39d0d6 )
+    main.set_footer(text= "Requested by:{}".format(ctx.message.author.name))
     commands = discord.Embed(title= "", color= 0x3079ec )
     commands.add_field(name= "{} All commands :".format(":page_facing_up:") , value= '''
 `/info <@user_name>` - info about user
@@ -48,7 +47,8 @@ async def help(ctx):
 `/say <text>` - print text in embed
 ''')
     commands.set_footer(text= "{}".format(Bot.user.display_name),icon_url= Bot.user.avatar_url )
-    await ctx.send(embed= commands)
+    await ctx.send(embed= main)
+    await ctx.message.author.send(embed= commands)
     await ctx.message.delete()
 
 @Bot.command(pass_context = True)
@@ -96,14 +96,14 @@ async def inv(ctx):
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator= True)
 async def ban(ctx, user: discord.Member, reason= None):
-    love = discord.Embed(title= "", color= 0xac5ae7 )
-    love.add_field(name = "No, it's my Operator!" , value= user.name)
-    bann = discord.Embed(title= "", color= 0xfc0202 )
     bn = True
     rsn = str(reason)
     if reason == None:
         rsn = "No reason given"
-    bann.add_field(name = ":no_entry_sign: Banned {}".format(user.name) , value= 'Reason: {}'.format(rsn)
+    love = discord.Embed(title= "", color= 0xac5ae7 )
+    love.add_field(name = "No, it's my Operator!" , value= user.name)
+    bann = discord.Embed(title= "", color= 0xfc0202 )
+    bann.add_field(name = ":no_entry_sign: Banned {}".format(user.name) , value= 'Reason: {}'.format(rsn))
     bann.set_footer(text= "Banned by: {}".format(ctx.message.author.name))
     if user.id == 399575084521488385:
         bn = False
