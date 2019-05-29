@@ -7,28 +7,13 @@ import os
 Bot = commands.Bot(command_prefix= '/')
 Bot.remove_command('help')
 
-global create, create_id 
+global create
 
 create = 'создать пати 🔨'
 
 @Bot.event
 async def on_ready():
     await Bot.change_presence(status=discord.Status.idle, activity=discord.Game('Cosmic Background radiation'))
-
-@Bot.event
-async def on_voice_state_update(member, before, after):
-    global create
-    guild = member.guild
-    cat = discord.utils.get(member.guild.voice_channels, name= create)
-    namechannel = str('💻 ' + member.name + ' party')
-    await guild.create_voice_channel(name= namechannel, category= cat.category)
-    channel = discord.utils.get(member.guild.voice_channels, name= namechannel)
-    await member.edit(voice_channel= channel)
-    status = True
-    while status:
-        if len(channel.members) == 0:
-            await channel.delete()
-            status = False
 
 @Bot.command(pass_context = True)
 async def help(ctx):
@@ -40,7 +25,7 @@ async def help(ctx):
 `/inv` - send link to invite bot on your server
 `/help` - send command list in pm
 ''')
-    commands.add_field(name= "{}Administrator commands :".format(":page_facing_up:") , value= '''
+    commands.add_field(name= "Administrator commands :" , value= '''
 `/ban <@user_name>` - ban user
 `/clear <messages amount>` - clear chat 
 `/say <text>` - print text in embed
