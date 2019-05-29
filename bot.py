@@ -30,7 +30,7 @@ async def help(ctx):
 `/clear <messages amount>` - clear chat 
 `/say <text>` - print text in embed
 ''')
-    commands.set_footer(text= "{}".format(Bot.user.display_name),icon_url= Bot.user.avatar_url )
+    commands.set_image(url= "https://i.imgur.com/zSQVJHH.png")
     await ctx.send(embed= main)
     await ctx.message.author.send(embed= commands)
     await ctx.message.delete()
