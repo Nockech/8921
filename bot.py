@@ -21,26 +21,18 @@ async def on_voice_state_update(member, before, after):
     global create
     guild = member.guild
     cat = discord.utils.get(member.guild.voice_channels, name= create)
-    try:
-        if after.channel.id == create_id:
-            namechannel = '💻 ' + member.name + ' party'
-            await guild.create_voice_channel(name= namechannel, category= cat.category)
-            channel = discord.utils.get(member.guild.voice_channels, name= namechannel)
-            channel = discord.utils.get(member.guild.voice_channels, name= namechannel)
-            overwrite = discord.PermissionOverwrite()
-            overwrite.manage_channels = True
-            await channel.set_permissions(member, overwrite=overwrite)
-            await asyncio.sleep(0.1)
-            await member.edit(voice_channel= channel)
-
-            status = True
-            while status:
-                if len(channel.members) == 0:
-                    await asyncio.sleep(20)
-                    await channel.delete()
-                    status = False
-    except AttributeError:
-        pass
+    namechannel = '💻 ' + member.name + ' party'
+    await guild.create_voice_channel(name= namechannel, category= cat.category)
+    channel = discord.utils.get(member.guild.voice_channels, name= namechannel)
+    channel = discord.utils.get(member.guild.voice_channels, name= namechannel)
+    await asyncio.sleep(0.1)
+    await member.edit(voice_channel= channel)
+    status = True
+    while status:
+        if len(channel.members) == 0:
+            await asyncio.sleep(20)
+            await channel.delete()
+            status = False
 
 @Bot.command(pass_context = True)
 async def help(ctx):
@@ -76,8 +68,8 @@ async def info(ctx , user: discord.Member ):  #member: discord.Member
         emb.add_field(name = "Playing right now: " , value = user.activity)
     emb.add_field(name = "Joined server at: " , value = user.joined_at.strftime("%#A, %#d %B %Y, %I:%M") , inline = False)
     emb.add_field(name = "Created account at:" ,value = user.created_at.strftime("%#A, %#d %B %Y, %I:%M"))
-    emb.add_field(name = "Roles:" , value = (str(", ").join([role.mention for role in user.roles]))[23:], inline = False)
     emb.set_thumbnail(url = user.avatar_url)
+    emb.add_field(name = "Roles:" , value = (str(", \n").join([role.mention for role in user.roles]))[23:], inline = False)
     emb.set_image(url= "https://i.imgur.com/GgNIvmI.png")
     await ctx.send(embed= emb)
     await ctx.message.delete()
@@ -103,22 +95,23 @@ async def inv(ctx):
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator= True)
-async def ban(ctx, user: discord.Member, *, reason = None):
+async def ban(ctx, user: discord.Member, reason= None):
     love = discord.Embed(title= "", color= 0xac5ae7 )
     love.add_field(name = "No, it's my Operator!" , value= user.name)
     bann = discord.Embed(title= "", color= 0xfc0202 )
-    rsn = reason
+    bn = True
+    rsn = str(reason)
     if reason == None:
         rsn = "No reason given"
-    bann.add_field(name = ":no_entry_sign: Banned {}".format(rsn) , value= user.name)
+    bann.add_field(name = ":no_entry_sign: Banned {}".format(user.name) , value= 'Reason: {}'.format(rsn)
     bann.set_footer(text= "Banned by: {}".format(ctx.message.author.name))
     if user.id == 399575084521488385:
+        bn = False
         await ctx.send(embed = love)
-        await ctx.message.delete()
-    else :
+    if bn == True:
         await ctx.send(embed= bann)
         await user.ban()
-        await ctx.message.delete()
+    await ctx.message.delete()
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator= True)
