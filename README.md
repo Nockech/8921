@@ -1,24 +1,7 @@
-# You picked the wrong files, fool!
-{
-    "name": "laralum/customization",
-    "description": "Customization module for laralum",
-    "require": {
-	"laralum/laralum": "1.*"
-    },
-    "authors": [
-        {
-            "name": "Erik Campobadal",
-            "email": "soc@erik.cat"
-        },
-        {
-            "name": "Aitor Riba",
-            "email": "contact@aitorriba.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Laralum\\Customization\\": "./src"
-        }
-    },
-    "minimum-stability": "dev"
-}
+
+# [Invite bot on your server](https://discordapp.com/oauth2/authorize?client_id=505040895200985089&scope=bot&permissions=37088334)
+
+
+
+
+
