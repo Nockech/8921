@@ -61,10 +61,14 @@ async def info(ctx , user: discord.Member ):  #member: discord.Member
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator= True)
 async def say(ctx):
-    msg = discord.Embed(title= "{}".format((ctx.message.content)[4:]), color= 0x39d0d6 )
-    msg.set_footer(text= "{}".format(ctx.message.author.name))
-    await ctx.send('',embed = msg)
-    await ctx.message.delete()
+    msg = discord.Embed(title="", color= 0x39d0d6)
+    msg.add_field(name="{}".format((ctx.message.content)[4:]), value="__ __")
+    msg.set_footer(text="© {}".format(ctx.message.author.name),icon_url=ctx.message.author.avatar_url)
+    try:
+        await ctx.send(embed=msg)
+        await ctx.message.delete()
+    except:
+        await ctx.send("Type text after `!say`")
 
 @Bot.command(pass_context = True)
 async def inv(ctx):
@@ -103,7 +107,7 @@ async def ban(ctx, user: discord.Member,reason=None):
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator= True)
-async def clear(ctx, amount= 100):
+async def clear(ctx, amount= 10):
     if amount <= 10:
         now = "Dont waste my time"
     elif amount <= 50:
