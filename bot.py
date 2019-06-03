@@ -68,7 +68,7 @@ async def say(ctx):
         await ctx.send(embed=msg)
         await ctx.message.delete()
     except:
-        await ctx.send("Type text after `!say`")
+        await ctx.send("Type text after `/say`")
 
 @Bot.command(pass_context = True)
 async def inv(ctx):
