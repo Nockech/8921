@@ -120,5 +120,12 @@ async def clear(ctx, amount= 10):
     await ctx.channel.purge(limit = amount)
     await ctx.send(embed=cln)
 
+@Bot.command(pass_context = True)
+async def show(ctx):
+    Guild = ctx.message.guild.id
+    channel = ctx.message.author.voice.channel.id
+    show = discord.Embed(colour = 0x39d0d6, title="Click here to watch:", url = f'https://discordapp.com/channels/{Guild}/{channel}')
+    show.set_footer(text = f'{ctx.message.author.voice.channel.name}')
+    await ctx.send(embed = embed)
 token = os.environ.get('BOT_TOKEN')
 Bot.run(str(token)) 
