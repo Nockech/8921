@@ -122,12 +122,11 @@ async def clear(ctx, amount= 10):
 
 @Bot.command(pass_contex= True)
 async def show(ctx):
-    Guild = ctx.message.guild.id
-    channel = ctx.message.author.voice.channel.id
-    show = discord.Embed(colour=0x39d0d6, title="")
-    show.set_thumbnail(url=ctx.message.author.avatar_url)
-    show.add_field(name= "Click here to watch:", value= f'{ctx.message.author.voice.channel.name} - {ctx.message.author.mention}\'s translation',inline= False)
-    show.add_field(name=f'https://discordapp.com/channels/{Guild}/{channel}', value="__ __",inline= False)
+    Guild= ctx.message.guild.id
+    channel= ctx.message.author.voice.channel.id
+    show= discord.Embed(colour=0x39d0d6, title="")
+    show.add_field(name= '💻 Invite to watch:', value= f'{ctx.message.author.voice.channel.name} - {ctx.message.author.mention}\'s translation')
+    show.add_field(name= "", value= '[Click here]({})'.format(f'https://discordapp.com/channels/{Guild}/{channel}'))
     await ctx.send(embed= show)
 
 token = os.environ.get('BOT_TOKEN')
