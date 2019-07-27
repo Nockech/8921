@@ -7,10 +7,6 @@ import os
 Bot = commands.Bot(command_prefix= '/')
 Bot.remove_command('help')
 
-global create
-
-create = 'создать пати 🔨'
-
 @Bot.event
 async def on_ready():
     await Bot.change_presence(status=discord.Status.idle, activity=discord.Game('Cosmic Background radiation'))
@@ -122,11 +118,17 @@ async def clear(ctx, amount= 10):
 
 @Bot.command(pass_contex= True)
 async def show(ctx):
-    Guild= ctx.message.guild.id
-    channel= ctx.message.author.voice.channel.id
-    show= discord.Embed(colour=0x39d0d6, title="")
-    show.add_field(name= '💻 Invite to watch:', value= f'{ctx.message.author.voice.channel.name} - {ctx.message.author.mention}\'s translation \n'+'[Click here]({})'.format(f'https://discordapp.com/channels/{Guild}/{channel}'))
-    await ctx.send(embed= show)
+    await ctx.message.delete()
+    try:
+        Guild= ctx.message.guild.id
+        channel= ctx.message.author.voice.channel.id
+        show= discord.Embed(colour=0x39d0d6, title=':arrow_forward: Invite to watch:')
+        show.add_field(name= f'{ctx.message.author.voice.channel.name} - {ctx.message.author.name}\'s demonstration', value= '[Click here]({})'.format(f'https://discordapp.com/channels/{Guild}/{channel}'))
+        await ctx.send(embed= show)
+    except AttributeError:
+        no= discord.Embed(colour=0xdaf806, title="")
+        no.add_field(name=":x: Unable to execute", value="You must be in voice channel to use this function")
+        await ctx.send(embed= no)
 
 token = os.environ.get('BOT_TOKEN')
 Bot.run(str(token)) 
