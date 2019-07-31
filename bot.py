@@ -10,6 +10,53 @@ Bot.remove_command('help')
 @Bot.event
 async def on_ready():
     await Bot.change_presence(status=discord.Status.idle, activity=discord.Game('Cosmic Background radiation'))
+    
+global role_for_mute 
+role_for_mute = 'muted'
+
+@Bot.command(pass_context= True)
+@commands.has_permissions(administrator=True)
+async def mute(ctx, user: discord.Member,time="indefinite term", rsn="No reason given"):
+    shut=discord.Permissions.is_superset(ctx.message.author.guild_permissions,user.guild_permissions)
+    muhaha=discord.Embed(title=f':warning: Not enough permissions to mute: \n {user.name}',color=0xdaf806)
+    silent=discord.Embed(title="",color=0xfc0202)
+    silent.add_field(name=f'User `{user.name}` has muted by `{ctx.message.author.name}`',value=f'for time: `{time}`\n Reason: `{rsn}`')
+    role=discord.utils.get(ctx.message.guild.roles, name=role_for_mute)
+    if shut == True:
+        await user.add_roles(role)
+        if time == "indefinite term":
+            await ctx.send(embed= silent)
+            pass
+        else:
+            tme= float(time) * 60
+            time= f'{tme} min'
+            await ctx.send(embed= silent)
+            await asyncio.sleep(tme)
+            await user.remove_roles(role_for_mute)
+        await ctx.send(embed= silent)
+    else:
+        await ctx.send(embed= muhaha)
+    await ctx.message.delete()
+
+@Bot.command(pass_context=True)
+@commands.has_permissions(ban_members=True)
+async def ban(ctx, user: discord.Member,rsn="No reason given"):
+    gg=discord.Permissions.is_superset(ctx.message.author.guild_permissions,user.guild_permissions)
+    nope=discord.Embed(title="",color=0xdaf806)
+    nope.add_field(name="No, it's my Creator!",value=user.name)
+    bann=discord.Embed(title="",color=0xfc0202)
+    bann.set_image(url="https://i.imgur.com/HaVYQIX.png")
+    bann.add_field(name=f'User `{user.name}` has beeen banned',value=f'Banned by: `{ctx.message.author.name}`\n Reason: `{rsn}`')
+    dab = discord.Embed(title=f':warning: Not enough permissions to ban: \n {user.name}',color=0xdaf806)
+    if user.id == 399575084521488385:
+        await ctx.send(embed=nope)
+        await ctx.message.delete()
+    elif gg == True:
+        await ctx.send(embed=bann)
+        await user.ban()
+    else:
+        await ctx.send(embed=dab)
+    await ctx.message.delete()
 
 @Bot.command(pass_context = True)
 async def help(ctx):
@@ -82,27 +129,6 @@ async def inv(ctx):
     await ctx.message.author.send(embed= inv)
     await ctx.message.delete()
 
-@Bot.command(pass_context=True)
-@commands.has_permissions(ban_members=True)
-async def ban(ctx, user: discord.Member,rsn="No reason given"):
-    gg=discord.Permissions.is_superset(ctx.message.author.guild_permissions,user.guild_permissions)
-    nope=discord.Embed(title="",color=0xdaf806)
-    nope.add_field(name="No, it's my Creator!",value=user.name)
-    bann=discord.Embed(title="",color=0xfc0202)
-    bann.set_image(url="https://i.imgur.com/HaVYQIX.png")
-    bann.add_field(name=f'User {user.name} was banned',value=f'Banned by: {ctx.message.author.name}\n Reason: {rsn}')
-    dab = discord.Embed(title="Not enough permissions to ban: \n {user.name}",color=0xdaf806)
-    if user.id == 399575084521488385:
-        await ctx.send(embed=nope)
-        await ctx.message.delete()
-        #return
-    if gg == True:
-        await ctx.send(embed=bann)
-        await user.ban()
-    else:
-        await ctx.send(embed=dab)
-    await ctx.message.delete()
-
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator= True)
 async def clear(ctx, amount= 10):
@@ -131,5 +157,6 @@ async def show(ctx):
         no= discord.Embed(colour=0xdaf806, title="")
         no.add_field(name=":x: Unable to execute", value="You must be in voice channel to use this function")
         await ctx.send(embed= no)
+
 token = os.environ.get('BOT_TOKEN')
 Bot.run(str(token)) 
