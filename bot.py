@@ -104,7 +104,7 @@ async def info(ctx , user: discord.Member ):
     except:
         err = discord.Embed(colour=0xdaf806, title="")
         err.add_field(name= ":x: Unable to execute",value="You must mention user nickname after this command")
-        await ctxsend(embed= err)
+        await ctx.send(embed= err)
 
 
 @Bot.command(pass_context = True)
