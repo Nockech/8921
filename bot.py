@@ -19,24 +19,30 @@ role_for_mute = 'muted'
 async def mute(ctx, user: discord.Member,time="indefinite term", rsn="No reason given"):
     shut=discord.Permissions.is_superset(ctx.message.author.guild_permissions,user.guild_permissions)
     muhaha=discord.Embed(title=f':warning: Not enough permissions to mute: \n {user.name}',color=0xdaf806)
-    silent=discord.Embed(title="",color=0xfc0202)
-    silent.add_field(name=f'User `{user.name}` has muted by `{ctx.message.author.name}`',value=f'for time: `{time}`\n Reason: `{rsn}`')
     role=discord.utils.get(ctx.message.guild.roles, name=role_for_mute)
+    await ctx.message.delete()
     if shut == True:
         await user.add_roles(role)
         if time == "indefinite term":
-            await ctx.send(embed= silent)
             pass
         else:
-            tme= float(time) * 60
-            time= f'{tme} min'
-            await ctx.send(embed= silent)
-            await asyncio.sleep(tme)
-            await user.remove_roles(role_for_mute)
+            at= float(time)*60
+            time= f'{time} min'
+            pass
+        silent=discord.Embed(title="",color=0xfc0202)
+        silent.add_field(name=f'User `{user.name}` has been muted by `{ctx.message.author.name}`',value=f'for time: `{time}`\n Reason: `{rsn}`')
         await ctx.send(embed= silent)
+        await asyncio.sleep(at)
+        await user.remove_roles(role)
     else:
         await ctx.send(embed= muhaha)
-    await ctx.message.delete()
+    
+@Bot.command(pass_context= True)
+@commands.has_permissions(administrator=True)
+async def unmute(ctx, user: discord.Member):
+    klap=discord.utils.get(ctx.message.guild.roles, name=role_for_mute)
+    await user.remove_roles(klap)
+    await ctx.send(f'Unmuted `{user.name}`')
 
 @Bot.command(pass_context=True)
 @commands.has_permissions(ban_members=True)
@@ -66,12 +72,13 @@ async def help(ctx):
     commands.add_field(name= ":page_facing_up: Regular commands :", value= '''
 `/info <@user_name>` - info about user
 `/inv` - send link to invite bot on your server
-`/help` - send command list in pm
-`/show` - enable screen demo in voice channel''')
+`/show` - enable screen demo in voice channel
+ ''')
     commands.add_field(name= "Administrator commands :" , value= '''
 `/ban <@user_name>` - ban user
 `/clear <messages amount>` - clear chat 
 `/say <text>` - print text in embed
+`/mute`,`unmute`- works only with role`muted` on server
 ''')
     commands.set_image(url= "https://i.imgur.com/zSQVJHH.png")
     await ctx.send(embed= main)
