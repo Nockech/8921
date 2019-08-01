@@ -94,10 +94,10 @@ async def info(ctx, user: discord.Member):
         ifbot= "**BOT**"
     if stat == 'dnd':
         stat='do not disturb'
-    if user.activity != None:
-        emb.add_field(name="Playing right now: ", value=user.activity)
     emb.add_field(name="Name:", value=f'{user.name} {ifbot}')
     emb.add_field(name="Status:", value=stat)
+    if user.activity != None:
+        emb.add_field(name="Playing right now: ", value=user.activity)
     emb.add_field(name="Joined server at: ", value=user.joined_at.strftime("%#A, %#d %B %Y, %I:%M") , inline = False)
     emb.add_field(name="Created account at:", value=user.created_at.strftime("%#A, %#d %B %Y, %I:%M"))
     emb.set_thumbnail(url=user.avatar_url)
