@@ -1,9 +1,5 @@
 # Discord server bot
-
 bot for moderating and fun
-
-## [Invite](https://discordapp.com/oauth2/authorize?client_id=505040895200985089&scope=bot&permissions=37088334)
-
 ## Command list:
 Common commands:
  - `/help` - Sends command list in pm
