@@ -4,6 +4,7 @@ bot for moderating and fun
 
 ## Command list:
 Common commands:
+ - `/help` - Sends command list in pm
  - `/info <@user_name>` - User information
  - `/inv` - Sends link in pm to invite bot on your server
  - `/show` - Sends screen demo link of voice channel in text channel
