@@ -12,4 +12,4 @@ Administrator commands:
  - `/clear <messages amount>` - Clear chat
  - `/say <text>` - Print text in embed
  - `/mute`,`unmute`- Mutes persone. Works only with role `muted` on server
-## [Invite](https://discordapp.com/oauth2/authorize?client_id=505040895200985089&scope=bot&permissions=37088334)
+# [Invite](https://discordapp.com/oauth2/authorize?client_id=505040895200985089&scope=bot&permissions=37088334)
