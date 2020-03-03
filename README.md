@@ -2,7 +2,7 @@
 
 bot for moderating and fun
 
-Command list:
+## Command list:
  - `/info <@user_name>` - info about user
  - `/inv` - send link to invite bot on your server
  - `/show` - enable screen demo in voice channel
