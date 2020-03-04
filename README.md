@@ -11,5 +11,5 @@ Administrator commands:
  - `/ban <@user_name>` - Ban user
  - `/clear <messages amount>` - Clear chat
  - `/say <text>` - Print text in embed
- - `/mute`,`unmute`- Mutes persone. Works only with role `muted` on server
+ - `/mute`,`/unmute`- Mutes persone. Works only with role `muted` on server
 # [Invite](https://discordapp.com/oauth2/authorize?client_id=505040895200985089&scope=bot&permissions=37088334)
