@@ -26,8 +26,8 @@ async def mute(ctx, user: discord.Member, time="indefinite term", rsn="No reason
         if time == "indefinite term":
             pass
         else:
-            at= float(time)*60
-            time= f'{time} min'
+            at = float(time)*60
+            time = f'{time} min'
             pass
         silent = discord.Embed(title="",color=0xfc0202)
         silent.add_field(name=f'User `{user.name}` has been muted by `{ctx.message.author.name}`', value=f'for time: `{time}`\n Reason: `{rsn}`')
@@ -69,20 +69,20 @@ async def help(ctx):
     main = discord.Embed(title=":mailbox_with_mail:Sended! check pm", color= 0x39d0d6 )
     main.set_footer(text=f'Requested by: {ctx.message.author.name}')
     commands = discord.Embed(title="", color= 0x3079ec )
-    commands.add_field(name=":page_facing_up: Regular commands :", value= '''
+    commands.add_field(name=":page_facing_up: Regular commands :", value='''
 `/info <@user_name>` - info about user
 `/inv` - send link to invite bot on your server
 `/show` - enable screen demo in voice channel
  ''')
-    commands.add_field(name="Administrator commands :", value= '''
+    commands.add_field(name="Administrator commands :", value='''
 `/ban <@user_name>` - ban user
 `/clear <messages amount>` - clear chat 
 `/say <text>` - print text in embed
 `/mute`,`unmute`- works only with role`muted` on server
 ''')
-    commands.set_image(url= "https://i.imgur.com/zSQVJHH.png")
-    await ctx.send(embed= main)
-    await ctx.message.author.send(embed= commands)
+    commands.set_image(url="https://i.imgur.com/zSQVJHH.png")
+    await ctx.send(embed=main)
+    await ctx.message.author.send(embed=commands)
     await ctx.message.delete()
 
 @Bot.command(pass_context=True)
