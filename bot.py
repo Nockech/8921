@@ -14,7 +14,7 @@ async def on_ready():
 global role_for_mute 
 role_for_mute = 'muted'
 
-@Bot.command(pass_context= True)
+@Bot.command(pass_context = True)
 @commands.has_permissions(administrator=True)
 async def mute(ctx, user: discord.Member, time="indefinite term", rsn="No reason given"):
     shut = discord.Permissions.is_superset(ctx.message.author.guild_permissions,user.guild_permissions)
@@ -37,7 +37,7 @@ async def mute(ctx, user: discord.Member, time="indefinite term", rsn="No reason
     else:
         await ctx.send(embed= muhaha)
     
-@Bot.command(pass_context=True)
+@Bot.command(pass_context = True)
 @commands.has_permissions(administrator=True)
 async def unmute(ctx, user: discord.Member):
     klap = discord.utils.get(ctx.message.guild.roles, name=role_for_mute)
@@ -85,7 +85,7 @@ async def help(ctx):
     await ctx.message.author.send(embed=commands)
     await ctx.message.delete()
 
-@Bot.command(pass_context=True)
+@Bot.command(pass_context = True)
 async def info(ctx, user: discord.Member):
     emb = discord.Embed(title=":information_source:", color=0x39d0d6)
     ifbot = ""
@@ -148,7 +148,7 @@ async def clear(ctx, amount= 10):
     await ctx.channel.purge(limit=amount)
     await ctx.send(embed=cln)
 
-@Bot.command(pass_contex= True)
+@Bot.command(pass_contex = True)
 async def show(ctx):
     await ctx.message.delete()
     try:
