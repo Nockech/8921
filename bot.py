@@ -7,35 +7,35 @@ import os
 Bot = commands.Bot(command_prefix= '/')
 Bot.remove_command('help')
 
+global role_for_mute 
+role_for_mute = 'muted'
+
 @Bot.event
 async def on_ready():
     await Bot.change_presence(status=discord.Status.idle, activity=discord.Game('with 0 users\(\(')) # Very sad((
-    
-global role_for_mute 
-role_for_mute = 'muted'
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator=True)
 async def mute(ctx, user: discord.Member, time="indefinite term", rsn="No reason given"):
     shut = discord.Permissions.is_superset(ctx.message.author.guild_permissions,user.guild_permissions)
-    muhaha = discord.Embed(title=f':warning: Not enough permissions to mute: \n {user.name}',color=0xdaf806)
+    restrict = discord.Embed(title=f':warning: Not enough permissions to mute: \n {user.name}',color=0xdaf806)
     role = discord.utils.get(ctx.message.guild.roles, name=role_for_mute)
     await ctx.message.delete()
-    if shut == True:
+    if shut:
         await user.add_roles(role)
         if time == "indefinite term":
             pass
         else:
-            at = float(time)*60
+            tm = float(time)*60
             time = f'{time} min'
             pass
         silent = discord.Embed(title="",color=0xfc0202)
         silent.add_field(name=f'User `{user.name}` has been muted by `{ctx.message.author.name}`', value=f'for time: `{time}`\n Reason: `{rsn}`')
         await ctx.send(embed=silent)
-        await asyncio.sleep(at)
+        await asyncio.sleep(tm)
         await user.remove_roles(role)
     else:
-        await ctx.send(embed= muhaha)
+        await ctx.send(embed=restrict)
     
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator=True)
@@ -47,7 +47,7 @@ async def unmute(ctx, user: discord.Member):
 @Bot.command(pass_context=True)
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, user: discord.Member,rsn="No reason given"):
-    gg = discord.Permissions.is_superset(ctx.message.author.guild_permissions,user.guild_permissions)
+    god = discord.Permissions.is_superset(ctx.message.author.guild_permissions,user.guild_permissions)
     nope = discord.Embed(title="", color=0xdaf806)
     nope.add_field(name="No, it's my Creator!", value=user.name)
     bann = discord.Embed(title="", color=0xfc0202)
@@ -57,7 +57,7 @@ async def ban(ctx, user: discord.Member,rsn="No reason given"):
     if user.id == 399575084521488385:
         await ctx.send(embed=nope)
         await ctx.message.delete()
-    elif gg == True:
+    elif god:
         await ctx.send(embed=bann)
         await user.ban()
     else:
@@ -90,7 +90,7 @@ async def info(ctx, user: discord.Member):
     emb = discord.Embed(title=":information_source:", color=0x39d0d6)
     ifbot = ""
     stat = str(user.status)
-    if user.bot == True:
+    if user.bot:
         ifbot= "**BOT**"
     if stat == 'dnd':
         stat = 'do not disturb'
@@ -120,7 +120,7 @@ async def say(ctx):
         await ctx.send(embed=msg)
         await ctx.message.delete()
     except:
-        await ctx.send("Type text after `/say`")
+        await ctx.send("Error!Try to type text after `/say`")
 
 @Bot.command(pass_context = True)
 async def inv(ctx):
