@@ -64,26 +64,49 @@ async def ban(ctx, user: discord.Member,rsn="No reason given"):
         await ctx.send(embed=dab)
     await ctx.message.delete()
 
+#help
 @Bot.command(pass_context = True)
-async def help(ctx):
-    main = discord.Embed(title=":mailbox_with_mail:Sended! check pm", color= 0x39d0d6 )
-    main.set_footer(text=f'Requested by: {ctx.message.author.name}')
-    commands = discord.Embed(title="", color= 0x3079ec )
-    commands.add_field(name=":page_facing_up: Regular commands :", value='''
-`/info <@user_name>` - info about user
-`/inv` - send link to invite bot on your server
-`/show` - enable screen demo in voice channel
- ''')
-    commands.add_field(name="Administrator commands :", value='''
-`/ban <@user_name>` - ban user
-`/clear <messages amount>` - clear chat 
-`/say <text>` - print text in embed
-`/mute`,`unmute`- works only with role`muted` on server
-''')
-    commands.set_image(url="https://i.imgur.com/zSQVJHH.png")
-    await ctx.send(embed=main)
-    await ctx.message.author.send(embed=commands)
+async def info(ctx, user: discord.Member = None):
     await ctx.message.delete()
+    emb = discord.Embed(title=":information_source:", color=0x39d0d6)
+
+    try:
+        emb.add_field(
+            name = "Name:",
+            value = f'{user.name} {"**BOT**" if user.bot else ""}')
+    except:
+        err = discord.Embed(colour=0xdaf806, title="")
+        err.add_field(
+            name = "Unable to execute!",
+            value = "You must mention user nickname after this command")
+        await ctx.send(embed = err)
+        return
+
+    emb.add_field(
+        name = "Status:", 
+        value = 'do not disturb' if str(user.status) == 'dnd' else str(user.status))
+
+    if user.activity != None and str(user.activity.type) != 'ActivityType.custom':
+        emb.add_field(
+            name = f'{str(user.activity.type)[13:]} right now: ', 
+            value = user.activity.name,
+            inline = False)
+
+    emb.add_field(
+        name = "Joined server at: ", 
+        value = user.joined_at.strftime("%#A, %#d %B %Y, %I:%M"), 
+        inline = False)
+    emb.add_field(
+        name = "Created account at:", 
+        value = user.created_at.strftime("%#A, %#d %B %Y, %I:%M"))
+    emb.add_field(
+        name="Roles:", 
+        value = (str(", ").join([role.mention for role in user.roles]))[23:], 
+        inline = False)
+    emb.set_thumbnail(url = user.avatar_url)
+    emb.set_image(url = "https://i.imgur.com/GgNIvmI.png")
+
+    await ctx.send(embed = emb)
 
 @Bot.command(pass_context = True)
 async def info(ctx, user: discord.Member):
