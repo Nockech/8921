@@ -108,31 +108,6 @@ async def info(ctx, user: discord.Member = None):
 
     await ctx.send(embed = emb)
 
-@Bot.command(pass_context = True)
-async def info(ctx, user: discord.Member):
-    emb = discord.Embed(title=":information_source:", color=0x39d0d6)
-    ifbot = ""
-    stat = str(user.status)
-    if user.bot:
-        ifbot= "**BOT**"
-    if stat == 'dnd':
-        stat = 'do not disturb'
-    emb.add_field(name="Name:", value=f'{user.name} {ifbot}')
-    emb.add_field(name="Status:", value=stat)
-    if user.activity != None:
-        emb.add_field(name="Playing right now: ", value=user.activity)
-    emb.add_field(name="Joined server at: ", value=user.joined_at.strftime("%#A, %#d %B %Y, %I:%M"), inline = False)
-    emb.add_field(name="Created account at:", value=user.created_at.strftime("%#A, %#d %B %Y, %I:%M"))
-    emb.set_thumbnail(url=user.avatar_url)
-    emb.add_field(name="Roles:", value = (str(", ").join([role.mention for role in user.roles]))[23:], inline = False)
-    emb.set_image(url="https://i.imgur.com/GgNIvmI.png")
-    try:
-        await ctx.send(embed=emb)
-        await ctx.message.delete()
-    except:
-        err = discord.Embed(colour=0xdaf806, title="")
-        err.add_field(name=":x: Unable to execute",value="You must mention user nickname after this command")
-        await ctx.send(embed=err)
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator= True)
