@@ -110,7 +110,7 @@ async def info(ctx, user: discord.Member = None):
 
 
 @Bot.command(pass_context = True)
-@commands.has_permissions(administrator= True)
+@commands.has_permissions(administrator = True)
 async def say(ctx):
     msg = discord.Embed(title="{}".format((ctx.message.content)[4:]), color= 0x39d0d6)
     msg.set_footer(text="© {}".format(ctx.message.author.name), icon_url=ctx.message.author.avatar_url)
@@ -132,26 +132,27 @@ async def invite(ctx):
         icon_url = Bot.user.avatar_url)
 
     main = discord.Embed(title= ":mailbox_with_mail: Sended! check pm", color= 0x39d0d6 )
-    main.set_footer(text=f'Requested by: {ctx.message.author.name}')
+    main.set_footer(text = f'Requested by: {ctx.message.author.name}')
 
-    await ctx.send(embed=main)
-    await ctx.message.author.send(embed=inv)
+    await ctx.send(embed = main)
+    await ctx.message.author.send(embed = inv)
     await ctx.message.delete()
 
+#CLEAR
 @Bot.command(pass_context = True)
-@commands.has_permissions(administrator= True)
-async def clear(ctx, amount= 10):
+@commands.has_permissions(administrator = True)
+async def clear(ctx, amount = 10):
     if amount <= 10:
-        now = "Dont waste my time"
+        now = "Done"
     elif amount <= 50:
         now = "Thats all?"
     elif amount >= 90:
         now = "Big clear, buddy"
     elif amount >= 50:
         now = "Good cleaning"
-    cln = discord.Embed(title=f'Messages cleared: {amount} .{now}', color= 0x39d0d6 )
-    await ctx.channel.purge(limit=amount)
-    await ctx.send(embed=cln)
+    cln = discord.Embed(title = f'Messages cleared: {amount}. {now}', color= 0xFF3861 )
+    await ctx.channel.purge(limit = amount)
+    await ctx.send(embed = cln)
 
 @Bot.command(pass_contex = True)
 async def show(ctx):
