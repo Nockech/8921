@@ -64,7 +64,7 @@ async def ban(ctx, user: discord.Member,rsn="No reason given"):
         await ctx.send(embed=dab)
     await ctx.message.delete()
 
-#help
+#INFO
 @Bot.command(pass_context = True)
 async def info(ctx, user: discord.Member = None):
     await ctx.message.delete()
