@@ -1,4 +1,5 @@
-import discord
+#Under rework now
+import discord 
 from discord.ext import commands
 from discord.ext.commands import Bot
 import asyncio
@@ -141,32 +142,27 @@ async def invite(ctx):
 #CLEAR
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator = True)
-async def clear(ctx, amount = 10):
-    if amount <= 10:
-        now = "Done"
-    elif amount <= 50:
-        now = "Thats all?"
-    elif amount >= 90:
-        now = "Big clear, buddy"
-    elif amount >= 50:
-        now = "Good cleaning"
-    cln = discord.Embed(title = f'Messages cleared: {amount}. {now}', color= 0xFF3861 )
-    await ctx.channel.purge(limit = amount)
-    await ctx.send(embed = cln)
-
-@Bot.command(pass_contex = True)
-async def show(ctx):
-    await ctx.message.delete()
-    try:
-        Guild = ctx.message.guild.id
-        channel = ctx.message.author.voice.channel.id
-        show = discord.Embed(colour=0x39d0d6, title=':arrow_forward: Invite to watch:')
-        show.add_field(name=f'{ctx.message.author.voice.channel.name} - {ctx.message.author.name}\'s demonstration', value= '[Click here]({})'.format(f'https://discordapp.com/channels/{Guild}/{channel}'))
-        await ctx.send(embed=show)
-    except AttributeError:
-        no= discord.Embed(colour=0xdaf806, title="")
-        no.add_field(name=":x: Unable to execute", value="You must be in voice channel to use this function")
-        await ctx.send(embed=no)
+async def clear(ctx, amount = None):
+    if amount is None:
+        amount = 10
+    if not isinstance(amount, int) or amount < 1:
+        err = discord.Embed(colour=0xdaf806, title="")
+        err.add_field(
+            name = "Unable to execute!",
+            value = "You must indicate the number of messages after this command")
+        await ctx.send(embed = err)
+    else:
+        if amount <= 10:
+            now = "Done"
+        elif amount <= 50:
+            now = "Thats all?"
+        elif amount >= 90:
+            now = "Big clear, buddy"
+        elif amount >= 50:
+            now = "Good cleaning"
+        cln = discord.Embed(title = f'Messages cleared: {amount}. {now}', color= 0xFF3861)
+        await ctx.channel.purge(limit = amount)
+        await ctx.send(embed = cln)
 
 token = os.environ.get('BOT_TOKEN')
 Bot.run(str(token)) 
