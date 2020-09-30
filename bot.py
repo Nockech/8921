@@ -110,16 +110,21 @@ async def info(ctx, user: discord.Member = None):
     await ctx.send(embed = emb)
 
 
+#SAY
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator = True)
 async def say(ctx):
-    msg = discord.Embed(title="{}".format((ctx.message.content)[4:]), color= 0x39d0d6)
-    msg.set_footer(text="© {}".format(ctx.message.author.name), icon_url=ctx.message.author.avatar_url)
-    try:
-        await ctx.send(embed=msg)
-        await ctx.message.delete()
-    except:
-        await ctx.send("Error!Try to type text after `/say`")
+    if ctx.message.content[4:]:
+        msg = discord.Embed(
+            title = f'{ctx.message.content[4:]}', 
+            color= 0x39d0d6)
+        msg.set_footer(
+            text = f'© {ctx.message.author.name}', 
+            icon_url = ctx.message.author.avatar_url)
+        await ctx.send(embed = msg)
+    else :
+        await ctx.send("Error! Type some text after `/say`")
+    await ctx.message.delete()
 
 #INVITE
 @Bot.command(pass_context = True)
