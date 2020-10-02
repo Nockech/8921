@@ -137,11 +137,11 @@ async def info(ctx, user: discord.Member = None):
 
     emb.add_field(
         name = "Joined server at: ", 
-        value = user.joined_at.strftime("%#A, %#d %B %Y, %I:%M"), 
+        value = capitalize(user.joined_at.strftime("%#A, %#d %B %Y, %I:%M")), 
         inline = False)
     emb.add_field(
         name = "Created account at:", 
-        value = user.created_at.strftime("%#A, %#d %B %Y, %I:%M"))
+        value = capitalize(user.created_at.strftime("%#A, %#d %B %Y, %I:%M")))
     emb.add_field(
         name="Roles:", 
         value = (str(", ").join([role.mention for role in user.roles]))[23:], 
