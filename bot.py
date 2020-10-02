@@ -13,15 +13,14 @@ global role_for_mute
 role_for_mute = 'muted'
 
 #LVL SYSTEM
-async def update_data(user_base, user_obj):
-    user = str(user_obj.id)
-    if not user in user_base and not user_obj.bot:
+async def update_data(user_base, user):
+    if not user in user_base:
         user_base[user] = {}
         user_base[user]['exp'] = 0
         user_base[user]['lvl'] = 0
 
 async def add_exp(user_base, user, exp):
-    user_base[user]['exp'] += exp
+        user_base[user]['exp'] += exp
 
 async def update_level(msg_channel, user_base, user):
     if user_base[user]['exp'] >= 15:
@@ -29,13 +28,13 @@ async def update_level(msg_channel, user_base, user):
         user_base[user]['lvl'] += 1
         await msg_channel.send(f'Ebal nichers')
 
-def get_user_if_has(user : str):
+def get_user_if_has(user_id : str):
     with open('data.json', 'r') as i:
         user_base = json.load(i)
-    if user in user_base:
-        return user_base[user]
+    if user_id in user_base:
+        return user_base[user_id]
     else:
-        return false
+        return None
 
         
 @Bot.event
@@ -47,9 +46,10 @@ async def on_message(message):
     with open('data.json', 'r') as i:
         user_base = json.load(i)
     
-    await update_data(user_base, message.author)
-    await add_exp(user_base, str(message.author.id), 1)
-    await update_level(message.channel, user_base, str(message.author.id))
+    if not message.author.bot:
+        await update_data(user_base, str(message.author.id))
+        await add_exp(user_base, str(message.author.id), 1)
+        await update_level(message.channel, user_base, str(message.author.id))
     
     with open('data.json', 'w') as i:
         json.dump(user_base, i)
@@ -106,7 +106,7 @@ async def ban(ctx, user: discord.Member,rsn="No reason given"):
     else:
         await ctx.send(embed=dab)
     await ctx.message.delete()
-
+    
 #INFO
 @Bot.command(pass_context = True)
 async def info(ctx, user: discord.Member = None):
@@ -131,7 +131,7 @@ async def info(ctx, user: discord.Member = None):
 
     if user.activity != None and str(user.activity.type) != 'ActivityType.custom':
         emb.add_field(
-            name = f'{str(user.activity.type)[13:]} right now: ', 
+            name = f'{capitalize(str(user.activity.type)[13:])} right now: ', 
             value = user.activity.name,
             inline = False)
 
@@ -146,6 +146,15 @@ async def info(ctx, user: discord.Member = None):
         name="Roles:", 
         value = (str(", ").join([role.mention for role in user.roles]))[23:], 
         inline = False)
+
+    if get_user_if_has(str(user.id)):
+        db_user = get_user_if_has(str(user.id))
+        exp = db_user['exp']
+
+        emb.add_field(
+            name = f'Progress: Lvl {db_user["lvl"]} user, {15 - db_user["exp"]} exp left to the next lvl', 
+            value = "** **")
+
     emb.set_thumbnail(url = user.avatar_url)
     emb.set_image(url = "https://i.imgur.com/GgNIvmI.png")
 
