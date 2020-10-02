@@ -112,6 +112,8 @@ async def ban(ctx, user: discord.Member,rsn="No reason given"):
 async def info(ctx, user: discord.Member = None):
     await ctx.message.delete()
     emb = discord.Embed(title=":information_source:", color=0x39d0d6)
+    with open('data.json', 'r') as i:
+        user_base = json.load(i)
 
     try:
         emb.add_field(
@@ -147,12 +149,10 @@ async def info(ctx, user: discord.Member = None):
         value = (str(", ").join([role.mention for role in user.roles]))[23:], 
         inline = False)
 
-    if get_user_if_has(str(user.id)):
-        db_user = get_user_if_has(str(user.id))
-        exp = db_user['exp']
-
+    if str(user.id) in user_base:
+        db_user = user_base[str(user.id)]
         emb.add_field(
-            name = f'Progress: Lvl {db_user["lvl"]} user, {15 - db_user["exp"]} exp left to the next lvl', 
+            name = f'Lvl {db_user["lvl"]} user, {15 - db_user["exp"]} exp left to the next lvl', 
             value = "** **")
 
     emb.set_thumbnail(url = user.avatar_url)
