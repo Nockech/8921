@@ -14,7 +14,7 @@ role_for_mute = 'muted'
 
 #LVL SYSTEM INIT
 async def update_data(user_base, user):
-    if not user in user_base:
+    if not user in user_base and not str(Bot.user.id):
         user_base[user] = {}
         user_base[user]['exp'] = 0
         user_base[user]['lvl'] = 0
@@ -23,15 +23,15 @@ async def add_exp(user_base, user, exp):
     user_base[user]['exp'] += exp
 
 async def update_level(channel, user_base, user):
-    if user_base[user]['exp'] > 15:
-        user_base[user]['exp'] += 1
+    if user_base[user]['exp'] >= 15:
         user_base[user]['exp'] = 0
+        user_base[user]['lvl'] += 1
         await channel.send(f'Ebal nichers')
 
         
 @Bot.event
 async def on_ready():
-    await Bot.change_presence(status=discord.Status.idle, activity=discord.Game('with 0 users((')) # Very sad((
+    await Bot.change_presence(status = discord.Status.idle, activity = discord.Game('with 0 users((')) # Very sad((
 
 @Bot.event
 async def on_message(message):
