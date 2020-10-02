@@ -12,9 +12,10 @@ Bot.remove_command('help')
 global role_for_mute 
 role_for_mute = 'muted'
 
-#LVL SYSTEM INIT
-async def update_data(user_base, user):
-    if not user in user_base and not str(Bot.user.id):
+#LVL SYSTEM
+async def update_data(user_base, user_obj):
+    user = str(user_obj.id)
+    if not user in user_base and not user_obj.bot:
         user_base[user] = {}
         user_base[user]['exp'] = 0
         user_base[user]['lvl'] = 0
@@ -22,11 +23,19 @@ async def update_data(user_base, user):
 async def add_exp(user_base, user, exp):
     user_base[user]['exp'] += exp
 
-async def update_level(channel, user_base, user):
+async def update_level(msg_channel, user_base, user):
     if user_base[user]['exp'] >= 15:
         user_base[user]['exp'] = 0
         user_base[user]['lvl'] += 1
-        await channel.send(f'Ebal nichers')
+        await msg_channel.send(f'Ebal nichers')
+
+def get_user_if_has(user : str):
+    with open('data.json', 'r') as i:
+        user_base = json.load(i)
+    if user in user_base:
+        return user_base[user]
+    else:
+        return false
 
         
 @Bot.event
@@ -38,12 +47,14 @@ async def on_message(message):
     with open('data.json', 'r') as i:
         user_base = json.load(i)
     
-    await update_data(user_base, str(message.author.id))
+    await update_data(user_base, message.author)
     await add_exp(user_base, str(message.author.id), 1)
     await update_level(message.channel, user_base, str(message.author.id))
     
     with open('data.json', 'w') as i:
         json.dump(user_base, i)
+    
+    await Bot.process_commands(message)
         
 
 @Bot.command(pass_context = True)
