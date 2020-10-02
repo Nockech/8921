@@ -150,13 +150,9 @@ async def invite(ctx):
 async def clear(ctx, amount = None):
     if amount is None:
         amount = 10
-    if not isinstance(amount, int) or amount < 1:
-        err = discord.Embed(colour=0xdaf806, title="")
-        err.add_field(
-            name = "Unable to execute!",
-            value = "You must indicate the number of messages after this command")
-        await ctx.send(embed = err)
-    else:
+    try:
+        amount = int(amount)
+
         if amount <= 10:
             now = "Done"
         elif amount <= 50:
@@ -165,9 +161,17 @@ async def clear(ctx, amount = None):
             now = "Big clear, buddy"
         elif amount >= 50:
             now = "Good cleaning"
+
         cln = discord.Embed(title = f'Messages cleared: {amount}. {now}', color= 0xFF3861)
         await ctx.channel.purge(limit = amount)
         await ctx.send(embed = cln)
+    except:
+        err = discord.Embed(colour=0xdaf806, title="")
+        err.add_field(
+            name = "Unable to execute!",
+            value = "You must indicate the number of messages after this command")
+
+        await ctx.send(embed = err)
 
 token = os.environ.get('BOT_TOKEN')
 Bot.run(str(token)) 
