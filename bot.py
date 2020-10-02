@@ -4,6 +4,7 @@ from discord.ext import commands
 from discord.ext.commands import Bot
 import asyncio
 import os
+import json
 
 Bot = commands.Bot(command_prefix= '/')
 Bot.remove_command('help')
@@ -11,9 +12,39 @@ Bot.remove_command('help')
 global role_for_mute 
 role_for_mute = 'muted'
 
+#LVL SYSTEM INIT
+async def update_data(user_base, user):
+    if not user in user_base:
+        user_base[user] = {}
+        user_base[user]['exp'] = 0
+        user_base[user]['lvl'] = 0
+
+async def add_exp(user_base, user, exp):
+    user_base[user]['exp'] += exp
+
+async def update_level(channel, user_base, user):
+    if user_base[user]['exp'] > 15:
+        user_base[user]['exp'] += 1
+        user_base[user]['exp'] = 0
+        await channel.send(f'Ebal nichers')
+
+        
 @Bot.event
 async def on_ready():
     await Bot.change_presence(status=discord.Status.idle, activity=discord.Game('with 0 users((')) # Very sad((
+
+@Bot.event
+async def on_message(message):
+    with open('data.json', 'r') as i:
+        user_base = json.load(i)
+    
+    await update_data(user_base, str(message.author.id))
+    await add_exp(user_base, str(message.author.id), 1)
+    await update_level(message.channel, user_base, str(message.author.id))
+    
+    with open('data.json', 'w') as i:
+        json.dump(user_base, i)
+        
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator=True)
