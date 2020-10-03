@@ -31,7 +31,7 @@ async def update_level(msg_channel, user_base, user):
 
         lvlup = discord.Embed(colour = 0x202225, title = "")
         lvlup.set_footer(
-            text = f'{Bot.get_user(int(user)).name} advanced to the next lvl({user_base[user]['lvl']})')
+            text = f'{Bot.get_user(int(user)).name} advanced to the next lvl({user_base[user]["lvl"]})')
         await msg_channel.send(embed = lvlup)
         
 @Bot.event
@@ -91,12 +91,26 @@ async def mute_handler(ctx, error):
         text = f'Make sure server got role named "{role_for_mute}"')
     await ctx.send(embed = err)
     
+#UNMUTE
 @Bot.command(pass_context = True)
-@commands.has_permissions(administrator=True)
-async def unmute(ctx, user: discord.Member):
-    klap = discord.utils.get(ctx.message.guild.roles, name=role_for_mute)
-    await user.remove_roles(klap)
-    await ctx.send(f'Unmuted `{user.name}`')
+@commands.has_permissions(administrator=True)#
+async def unmute(ctx, user):
+    try:
+        klap = discord.utils.get(ctx.message.guild.roles, name = role_for_mute)
+        converter = MemberConverter()
+        member = await converter.convert(ctx, user)
+        emb = discord.Embed(title = f'Unmuted {member.name}. Take it slowly', color = 0xFF3861)
+
+        await member.remove_roles(klap)
+        await ctx.send(embed = emb)
+    except:
+        err = discord.Embed(colour = 0xdaf806, title = "")
+        err.add_field(
+            name = "Unable to execute!",
+            value = "You must mention user nickname after this command")
+        err.set_footer(
+            text = f'Make sure server got role named "{role_for_mute}"')
+        await ctx.send(embed = err)
 
 @Bot.command(pass_context=True)
 @commands.has_permissions(ban_members=True)
