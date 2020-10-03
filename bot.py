@@ -18,6 +18,7 @@ async def update_data(user_base, user):
         user_base[user] = {}
         user_base[user]['exp'] = 0
         user_base[user]['lvl'] = 0
+        user_base[user]['bank'] = 0
 
 async def add_exp(user_base, user, exp):
         user_base[user]['exp'] += exp
@@ -35,7 +36,6 @@ def get_user_if_has(user_id : str):
         return user_base[user_id]
     else:
         return None
-
         
 @Bot.event
 async def on_ready():
