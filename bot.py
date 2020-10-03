@@ -191,7 +191,7 @@ async def info(ctx, user: discord.Member = None):
 async def say(ctx):
     if ctx.message.content[4:]:
         msg = discord.Embed(
-            title = f'{ctx.message.content[4:]}', 
+            title = f'_{ctx.message.content[4:]}_', 
             color= 0x39d0d6)
         msg.set_footer(
             text = f'© {ctx.message.author.name}', 
