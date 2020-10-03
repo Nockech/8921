@@ -133,17 +133,17 @@ async def info(ctx, user: discord.Member = None):
 
     if user.activity != None and str(user.activity.type) != 'ActivityType.custom':
         emb.add_field(
-            name = f'{capitalize(str(user.activity.type)[13:])} right now: ', 
+            name = f'{(str(user.activity.type)[13:]).capitalize()} right now: ', 
             value = user.activity.name,
             inline = False)
 
     emb.add_field(
         name = "Joined server at: ", 
-        value = capitalize(user.joined_at.strftime("%#A, %#d %B %Y, %I:%M")), 
+        value = user.joined_at.strftime("%#A, %#d %B %Y, %I:%M").capitalize(), 
         inline = False)
     emb.add_field(
         name = "Created account at:", 
-        value = capitalize(user.created_at.strftime("%#A, %#d %B %Y, %I:%M")))
+        value = user.created_at.strftime("%#A, %#d %B %Y, %I:%M").capitalize())
     emb.add_field(
         name="Roles:", 
         value = (str(", ").join([role.mention for role in user.roles]))[23:], 
@@ -159,7 +159,6 @@ async def info(ctx, user: discord.Member = None):
     emb.set_image(url = "https://i.imgur.com/GgNIvmI.png")
 
     await ctx.send(embed = emb)
-
 
 #SAY
 @Bot.command(pass_context = True)
