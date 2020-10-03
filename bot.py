@@ -2,6 +2,7 @@
 import discord 
 from discord.ext import commands
 from discord.ext.commands import Bot
+from discord.ext.commands import MemberConverter
 import asyncio
 import os
 import json
@@ -222,7 +223,7 @@ async def clear(ctx, amount = None):
         elif amount >= 50:
             now = "Good cleaning"
 
-        cln = discord.Embed(title = f'Messages cleared: {amount}. {now}', color= 0xFF3861)
+        cln = discord.Embed(title = f'Messages cleared: {amount}. {now}', color = 0xFF3861)
         await ctx.channel.purge(limit = amount)
         await ctx.send(embed = cln)
     except:
