@@ -189,9 +189,9 @@ async def info(ctx, user: discord.Member = None):
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator = True)
 async def say(ctx):
-    if ctx.message.content[4:]:
+    if ctx.message.content[5:]:
         msg = discord.Embed(
-            title = f'_«{ctx.message.content[4:]}»_', 
+            title = f'_«{ctx.message.content[5:]}»_', 
             color= 0x39d0d6)
         msg.set_footer(
             text = f'© {ctx.message.author.name}', 
