@@ -57,28 +57,43 @@ async def on_message(message):
     await Bot.process_commands(message)
         
 
+#MUTE
 @Bot.command(pass_context = True)
-@commands.has_permissions(administrator=True)
-async def mute(ctx, user: discord.Member, time="indefinite term", rsn="No reason given"):
-    shut = discord.Permissions.is_superset(ctx.message.author.guild_permissions,user.guild_permissions)
-    restrict = discord.Embed(title=f':warning: Not enough permissions to mute: \n {user.name}',color=0xdaf806)
-    role = discord.utils.get(ctx.message.guild.roles, name=role_for_mute)
-    await ctx.message.delete()
+@commands.has_permissions(administrator = True)
+async def mute(ctx, user, time, *rsn):
+    try:
+        if not isinstance(time, float):
+            raise Exception("dwdwd")
+        shut = discord.Permissions.is_superset(ctx.message.author.guild_permissions, user.guild_permissions)
+        role = discord.utils.get(ctx.message.guild.roles, name = role_for_mute)
+    except:
+        err = discord.Embed(colour=0xdaf806, title="")
+        err.add_field(
+            name = "Unable to execute!",
+            value = "You must mention user nickname and pass correct time after this command")
+        await ctx.send(embed = err)
+        return
+
     if shut:
+        silent = discord.Embed(title = "", color = 0xfc0202)
         await user.add_roles(role)
-        if time == "indefinite term":
-            pass
-        else:
-            tm = float(time)*60
-            time = f'{time} min'
-            pass
-        silent = discord.Embed(title="",color=0xfc0202)
-        silent.add_field(name=f'User `{user.name}` has been muted by `{ctx.message.author.name}`', value=f'for time: `{time}`\n Reason: `{rsn}`')
-        await ctx.send(embed=silent)
-        await asyncio.sleep(tm)
+
+        tm = f'{int(int(time))} min'
+        if time != 5.0:
+            time = float(time) * 60
+        
+        silent.add_field(
+            name = f'{user.name} has been muted by {ctx.message.author.name}', 
+            value = f'For time: {tm}\n Reason: {" ".join(rsn) if " ".join(rsn) else "No reason given"}')
+
+        await ctx.send(embed = silent)
+        await asyncio.sleep(time)
         await user.remove_roles(role)
     else:
-        await ctx.send(embed=restrict)
+        restrict = discord.Embed(title = f':warning: Not enough permissions to mute: \n {user.name}', color = 0xdaf806)
+        await ctx.send(embed = restrict)
+
+    await ctx.message.delete()
     
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator=True)
