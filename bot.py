@@ -27,15 +27,11 @@ async def update_level(msg_channel, user_base, user):
     if user_base[user]['exp'] >= 15:
         user_base[user]['exp'] = 0
         user_base[user]['lvl'] += 1
-        await msg_channel.send(f'Ebal nichers')
 
-def get_user_if_has(user_id : str):
-    with open('data.json', 'r') as i:
-        user_base = json.load(i)
-    if user_id in user_base:
-        return user_base[user_id]
-    else:
-        return None
+        lvlup = discord.Embed(colour = 0x202225, title = "")
+        lvlup.set_footer(
+            text = f'{Bot.get_user(int(user)).name} advanced to the next lvl({user_base[user]['lvl']})')
+        await msg_channel.send(embed = lvlup)
         
 @Bot.event
 async def on_ready():
@@ -60,28 +56,17 @@ async def on_message(message):
 #MUTE
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator = True)
-async def mute(ctx, user, time, *rsn):
-    try:
-        if not isinstance(time, float):
-            raise Exception("dwdwd")
-        shut = discord.Permissions.is_superset(ctx.message.author.guild_permissions, user.guild_permissions)
-        role = discord.utils.get(ctx.message.guild.roles, name = role_for_mute)
-    except:
-        err = discord.Embed(colour=0xdaf806, title="")
-        err.add_field(
-            name = "Unable to execute!",
-            value = "You must mention user nickname and pass correct time after this command")
-        await ctx.send(embed = err)
-        return
+async def mute(ctx, user: discord.Member, time = 5, *rsn):
+    shut = discord.Permissions.is_superset(ctx.message.author.guild_permissions, user.guild_permissions)
+    role = discord.utils.get(ctx.message.guild.roles, name = role_for_mute)
 
     if shut:
-        silent = discord.Embed(title = "", color = 0xfc0202)
         await user.add_roles(role)
 
-        tm = f'{int(int(time))} min'
-        if time != 5.0:
-            time = float(time) * 60
+        tm = f'{int(time)} min'
+        time = float(time) * 60
         
+        silent = discord.Embed(title = "", color = 0xfc0202)
         silent.add_field(
             name = f'{user.name} has been muted by {ctx.message.author.name}', 
             value = f'For time: {tm}\n Reason: {" ".join(rsn) if " ".join(rsn) else "No reason given"}')
@@ -94,6 +79,15 @@ async def mute(ctx, user, time, *rsn):
         await ctx.send(embed = restrict)
 
     await ctx.message.delete()
+@mute.error
+async def mute_handler(ctx, error):
+    err = discord.Embed(colour = 0xdaf806, title = "")
+    err.add_field(
+        name = "Unable to execute!",
+        value = "You must mention user nickname and pass correct time after this command")
+    err.set_footer(
+        text = f'Make sure server got role named "{role_for_mute}"')
+    await ctx.send(embed = err)
     
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator=True)
