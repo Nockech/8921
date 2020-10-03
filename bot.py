@@ -79,6 +79,7 @@ async def mute(ctx, user: discord.Member, time = 5, *rsn):
         await ctx.send(embed = restrict)
 
     await ctx.message.delete()
+            
 @mute.error
 async def mute_handler(ctx, error):
     err = discord.Embed(colour = 0xdaf806, title = "")
