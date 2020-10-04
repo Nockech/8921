@@ -112,31 +112,51 @@ async def unmute(ctx, user):
             text = f'Make sure server got role named "{role_for_mute}"')
         await ctx.send(embed = err)
 
-@Bot.command(pass_context=True)
-@commands.has_permissions(ban_members=True)
-async def ban(ctx, user: discord.Member,rsn="No reason given"):
-    god = discord.Permissions.is_superset(ctx.message.author.guild_permissions,user.guild_permissions)
-    nope = discord.Embed(title="", color=0xdaf806)
-    nope.add_field(name="No, it's my Creator!", value=user.name)
-    bann = discord.Embed(title="", color=0xfc0202)
-    bann.set_image(url="https://i.imgur.com/HaVYQIX.png")
-    bann.add_field(name=f'User `{user.name}` has beeen banned', value=f'Banned by: `{ctx.message.author.name}`\n Reason: `{rsn}`')
-    dab = discord.Embed(title=f':warning: Not enough permissions to ban: \n {user.name}',color=0xdaf806)
+#BAN
+@Bot.command(pass_context = True)
+@commands.has_permissions(ban_members = True)
+async def ban(ctx, user, *rsn):
+    await ctx.message.delete()
+
+    try:
+        converter = MemberConverter()
+        user = await converter.convert(ctx, user)
+        is_super = discord.Permissions.is_superset(ctx.message.author.guild_permissions, user.guild_permissions)
+    except:
+        err = discord.Embed(colour = 0xdaf806, title = "")
+        err.add_field(
+            name = "Unable to execute!",
+            value = "You must mention user nickname after this command")
+        await ctx.send(embed = err)
+        return
+
     if user.id == 399575084521488385:
-        await ctx.send(embed=nope)
-        await ctx.message.delete()
-    elif god:
-        await ctx.send(embed=bann)
+        nope = discord.Embed(title = "", color = 0x202225)
+        nope.add_field(
+            name = "No, it's my Creator!", 
+            value = "Can't ban my master")
+        await ctx.send(embed = nope)
+    elif is_super:
+        bann = discord.Embed(title = "", color = 0xfc0202)
+        bann.set_image(url = "https://i.imgur.com/HaVYQIX.png")
+        bann.set_thumbnail(url = user.avatar_url)
+        bann.add_field(
+            name = f'{user.name} has beeen banned',
+            value = f'** **\nBanned by {ctx.message.author.name}\n Reason: {" ".join(rsn) if " ".join(rsn) else "No reason given"}')
+        await ctx.send(embed = bann)
         await user.ban()
     else:
-        await ctx.send(embed=dab)
-    await ctx.message.delete()
+        err = discord.Embed(colour = 0xdaf806, title = "")
+        err.add_field(
+            name = "Unable to execute!",
+            value = "You have not enough permissions to ban this member")
+        await ctx.send(embed = err)
     
 #INFO
 @Bot.command(pass_context = True)
 async def info(ctx, user: discord.Member = None):
     await ctx.message.delete()
-    emb = discord.Embed(title=":information_source:", color=0x39d0d6)
+    emb = discord.Embed(title = ":information_source:", color = 0x39d0d6)
     with open('data.json', 'r') as i:
         user_base = json.load(i)
 
@@ -145,7 +165,7 @@ async def info(ctx, user: discord.Member = None):
             name = "Name:",
             value = f'{user.name} {"**BOT**" if user.bot else ""}')
     except:
-        err = discord.Embed(colour=0xdaf806, title="")
+        err = discord.Embed(colour = 0xdaf806, title = "")
         err.add_field(
             name = "Unable to execute!",
             value = "You must mention user nickname after this command")
@@ -212,7 +232,7 @@ async def invite(ctx):
         text = Bot.user.name + " BOT", 
         icon_url = Bot.user.avatar_url)
 
-    main = discord.Embed(title= ":mailbox_with_mail: Sended! check pm", color= 0x39d0d6 )
+    main = discord.Embed(title = ":mailbox_with_mail: Sended! check pm", color = 0x39d0d6 )
     main.set_footer(text = f'Requested by: {ctx.message.author.name}')
 
     await ctx.send(embed = main)
@@ -241,7 +261,7 @@ async def clear(ctx, amount = None):
         await ctx.channel.purge(limit = amount)
         await ctx.send(embed = cln)
     except:
-        err = discord.Embed(colour=0xdaf806, title="")
+        err = discord.Embed(colour = 0xdaf806, title = "")
         err.add_field(
             name = "Unable to execute!",
             value = "You must indicate the number of messages after this command")
