@@ -151,7 +151,43 @@ async def ban(ctx, user, *rsn):
             name = "Unable to execute!",
             value = "You have not enough permissions to ban this member")
         await ctx.send(embed = err)
+            
+#UNBAN
+@Bot.command(pass_context = True)
+@commands.has_permissions(administrator = True)
+async def unban(ctx, user_id):
+    try:
+        user = Bot.get_user(int(user_id))
+        await ctx.guild.unban(user)
+    except:
+        err = discord.Embed(colour = 0xdaf806, title = "")
+        err.add_field(
+            name = "Unable to execute!",
+            value = "You must mention banned user id after this command")
+        err.set_footer(
+            text = f'You can get banned users list by using "banlist" command')
+        await ctx.send(embed = err)
+
+#BANLIST
+@Bot.command(pass_context = True)
+@commands.has_permissions(administrator = True)
+async def banlist(ctx):
+    banned_users = await ctx.guild.bans()
+    banned_users = [i.user for i in banned_users]
+
+    emb = discord.Embed(colour = 0xFF3861, title = "Banned users:")
     
+    if not banned_users:
+        emb.title = "There is no banned users on server"
+        
+    for i in banned_users:
+        emb.add_field(
+            name = f'{banned_users.index(i) + 1}. {str(i)}',
+            value = f'{i.mention}; id: {str(i.id)}',
+            inline = False)
+
+    await ctx.send(embed = emb)
+            
 #INFO
 @Bot.command(pass_context = True)
 async def info(ctx, user: discord.Member = None):
