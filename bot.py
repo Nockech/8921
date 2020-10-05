@@ -52,7 +52,35 @@ async def on_message(message):
         json.dump(user_base, i)
     
     await Bot.process_commands(message)
-        
+    
+#HELP
+@Bot.command(pass_context = True)
+async def help(ctx):
+    hlp = discord.Embed(title = "", color = 0x3079ec)
+    hlp.add_field(
+        name = 'General commands: \n ** **',
+        value = '''
+        > /invite - sends the invite bot link in pm\n
+        > /info - all information about user\n
+        > /say [text] - shows the text in the quote
+        ''')
+    hlp.add_field(
+        name = 'Moderation commands: \n ** **',
+        value = f'''
+        > /ban [@user] [reason] - bans the specified user\n
+        > /unban [user_id - unbans user\n
+        > /mute [@user] - gives user role named "{role_for_mute}" \n(make sure it exist on server)\n
+        > /unmute [@user] - unmutes user\n
+        > /clear [amount] - clears the specified number of messages
+        ''')
+    hlp.set_image(url = "https://i.imgur.com/zSQVJHH.png")
+
+    main = discord.Embed(title = ":mailbox_with_mail: Sended! check pm", color = 0x39d0d6 )
+    main.set_footer(text = f'Requested by: {ctx.message.author.name}')
+
+    await ctx.send(embed = main)
+    await ctx.message.author.send(embed = hlp)
+    await ctx.message.delete()
 
 #MUTE
 @Bot.command(pass_context = True)
