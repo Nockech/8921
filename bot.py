@@ -36,7 +36,7 @@ async def update_level(msg_channel, user_base, user):
         
 @Bot.event
 async def on_ready():
-    await Bot.change_presence(status = discord.Status.idle, activity = discord.Game('with 0 users((')) # Very sad((
+    await Bot.change_presence(status = discord.Status.idle, activity = discord.Game('Overwatch')) # Very sad((
 
 @Bot.event
 async def on_message(message):
