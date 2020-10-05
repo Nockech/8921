@@ -170,7 +170,6 @@ async def unban(ctx, user_id):
 
 #BANLIST
 @Bot.command(pass_context = True)
-@commands.has_permissions(administrator = True)
 async def banlist(ctx):
     banned_users = await ctx.guild.bans()
     banned_users = [i.user for i in banned_users]
@@ -243,7 +242,6 @@ async def info(ctx, user: discord.Member = None):
 
 #SAY
 @Bot.command(pass_context = True)
-@commands.has_permissions(administrator = True)
 async def say(ctx):
     if ctx.message.content[5:]:
         msg = discord.Embed(
