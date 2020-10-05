@@ -226,7 +226,7 @@ async def info(ctx, user: discord.Member = None):
     try:
         emb.add_field(
             name = "Name:",
-            value = f'{user.name} {"**BOT**" if user.bot else ""}')
+            value = f'{user} {"**BOT**" if user.bot else ""}')
     except:
         err = discord.Embed(colour = 0xdaf806, title = "")
         err.add_field(
@@ -286,7 +286,7 @@ async def say(ctx):
 #INVITE
 @Bot.command(pass_context = True)
 async def invite(ctx):
-    inv = discord.Embed(title = "", color= 0x3079ec )
+    inv = discord.Embed(title = "", color = 0x3079ec )
     inv.set_author(
         name = "Click here to invite", 
         url = "https://discordapp.com/oauth2/authorize?client_id=505040895200985089&scope=bot&permissions=37088334")
