@@ -4,4 +4,4 @@ websockets
 chardet
 asyncio
 youtube-dl
-lavalink
+wavelink
