@@ -36,6 +36,7 @@ async def update_level(msg_channel, user_base, user):
         
 @Bot.event
 async def on_ready():
+    Bot.load_extension('cogs.music')
     await Bot.change_presence(status = discord.Status.idle, activity = discord.Game('Overwatch')) # Very sad((
 
 @Bot.event
