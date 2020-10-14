@@ -15,7 +15,7 @@ class MusicCog(commands.Cog):
     async def start_nodes(self):
         await self.bot.wait_until_ready()
 
-        await self.bot.wavelink.initiate_node(host='http://lavalink-nock-server.herokuapp.com',
+        await self.bot.wavelink.initiate_node(host='nock-lavalink-server.herokuapp.com',
                                               port=80,
                                               rest_uri='http://nock-lavalink-server.herokuapp.com',
                                               password='youshallnotpass',
