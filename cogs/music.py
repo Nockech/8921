@@ -15,12 +15,12 @@ class MusicCog(commands.Cog):
     async def start_nodes(self):
         await self.bot.wait_until_ready()
 
-        await self.bot.wavelink.initiate_node(host='nock-lavalink-server.herokuapp.com',
-                                              port=80,
-                                              rest_uri='http://nock-lavalink-server.herokuapp.com',
-                                              password='youshallnotpass',
-                                              identifier='MAIN',
-                                              region='europe')
+        await self.bot.wavelink.initiate_node(host = 'nock-lavalink-server.herokuapp.com',
+                                              port = 80,
+                                              rest_uri = 'http://nock-lavalink-server.herokuapp.com',
+                                              password = 'youshallnotpass',
+                                              identifier = 'MAIN',
+                                              region = 'europe')
 
     @commands.command()
     async def join(self, ctx, *, channel: discord.VoiceChannel = None):
