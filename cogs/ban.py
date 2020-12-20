@@ -1,8 +1,7 @@
 from discord.ext import commands
 import discord
 
-#HELP
-class HelpCog(commands.Cog):
+class BanCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -87,4 +86,4 @@ class HelpCog(commands.Cog):
         await ctx.send(embed = emb)
 
 def setup(bot):
-    bot.add_cog(HelpCog(bot))
+    bot.add_cog(BanCog(bot))
