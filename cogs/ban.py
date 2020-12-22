@@ -1,11 +1,11 @@
 from discord.ext import commands
 import discord
 
+#BAN
 class BanCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    #BAN
     @commands.command(pass_context = True)
     @commands.has_permissions(ban_members = True)
     async def ban(self, ctx, user, *rsn):

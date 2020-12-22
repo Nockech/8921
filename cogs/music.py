@@ -1,6 +1,6 @@
 from discord.ext import commands
-import wavelink
 import discord
+import wavelink
 
 class MusicCog(commands.Cog):
 
@@ -37,6 +37,7 @@ class MusicCog(commands.Cog):
     @commands.command()
     async def play(self, ctx, *, query: str):
         tracks = await self.bot.wavelink.get_tracks(f'ytsearch:{query}')
+        print(tracks)
 
         if not tracks:
             return await ctx.send('Could not find any songs with that query.')
@@ -47,7 +48,6 @@ class MusicCog(commands.Cog):
 
         await ctx.send(f'Added {str(tracks[0])} to the queue.')
         await player.play(tracks[0])
-
 
 def setup(bot):
     bot.add_cog(MusicCog(bot))
