@@ -34,10 +34,15 @@ async def update_level(msg_channel, user_base, user):
         await msg_channel.send(embed = lvlup)
         
 @Bot.event
-async def on_ready():
+async def on_ready():    
     #Bot.load_extension('cogs.music')
     Bot.load_extension('cogs.ban')
-    await Bot.change_presence(status = discord.Status.idle, activity = discord.Game('PUBG'))
+    Bot.load_extension('cogs.info')
+    Bot.load_extension('cogs.say')
+    Bot.load_extension('cogs.clear')
+    Bot.load_extension('cogs.invite')
+    
+    await Bot.change_presence(status = discord.Status.idle, activity = discord.Game('Overwatch'))
 
 @Bot.event
 async def on_message(message):
@@ -139,121 +144,6 @@ async def unmute(ctx, user):
             value = "You must mention user nickname after this command")
         err.set_footer(
             text = f'Make sure server got role named "{role_for_mute}"')
-        await ctx.send(embed = err)
-            
-#INFO
-@Bot.command(pass_context = True)
-async def info(ctx, user: discord.Member = None):
-    await ctx.message.delete()
-    emb = discord.Embed(title = ":information_source:", color = 0x39d0d6)
-    with open('data.json', 'r') as i:
-        user_base = json.load(i)
-
-    try:
-        emb.add_field(
-            name = "Name:",
-            value = f'{user} {"**BOT**" if user.bot else ""}')
-    except:
-        err = discord.Embed(colour = 0xdaf806, title = "")
-        err.add_field(
-            name = "Unable to execute!",
-            value = "You must mention user nickname after this command")
-        await ctx.send(embed = err)
-        return
-
-    emb.add_field(
-        name = "Status:", 
-        value = 'do not disturb' if str(user.status) == 'dnd' else str(user.status))
-
-    if user.activity != None and str(user.activity.type) != 'ActivityType.custom':
-        emb.add_field(
-            name = f'{(str(user.activity.type)[13:]).capitalize()} right now: ', 
-            value = user.activity.name,
-            inline = False)
-
-    emb.add_field(
-        name = "Joined server at: ", 
-        value = user.joined_at.strftime("%#A, %#d %B %Y, %I:%M").capitalize(), 
-        inline = False)
-    emb.add_field(
-        name = "Created account at:", 
-        value = user.created_at.strftime("%#A, %#d %B %Y, %I:%M").capitalize())
-    emb.add_field(
-        name="Roles:", 
-        value = (str(", ").join([role.mention for role in user.roles]))[23:], 
-        inline = False)
-
-    if str(user.id) in user_base:
-        db_user = user_base[str(user.id)]
-        emb.add_field(
-            name = f'Lvl {db_user["lvl"]} user, {15 - db_user["exp"]} exp left to the next lvl', 
-            value = "** **")
-
-    emb.set_thumbnail(url = user.avatar_url)
-    emb.set_image(url = "https://i.imgur.com/GgNIvmI.png")
-
-    await ctx.send(embed = emb)
-
-#SAY
-@Bot.command(pass_context = True)
-async def say(ctx):
-    if ctx.message.content[5:]:
-        msg = discord.Embed(
-            title = f'_«{ctx.message.content[5:]}»_', 
-            color= 0x39d0d6)
-        msg.set_footer(
-            text = f'© {ctx.message.author.name}', 
-            icon_url = ctx.message.author.avatar_url)
-        await ctx.send(embed = msg)
-    else :
-        await ctx.send("Error! Type some text after `/say`")
-    await ctx.message.delete()
-
-#INVITE
-@Bot.command(pass_context = True)
-async def invite(ctx):
-    inv = discord.Embed(title = "", color = 0x3079ec )
-    inv.set_author(
-        name = "Click here to invite", 
-        url = "https://discordapp.com/oauth2/authorize?client_id=505040895200985089&scope=bot&permissions=37088334")
-    inv.set_footer(
-        text = Bot.user.name + " BOT", 
-        icon_url = Bot.user.avatar_url)
-
-    main = discord.Embed(title = ":mailbox_with_mail: Sended! check pm", color = 0x39d0d6 )
-    main.set_footer(text = f'Requested by: {ctx.message.author.name}')
-
-    await ctx.send(embed = main)
-    await ctx.message.author.send(embed = inv)
-    await ctx.message.delete()
-
-#CLEAR
-@Bot.command(pass_context = True)
-@commands.has_permissions(administrator = True)
-async def clear(ctx, amount = None):
-    if amount is None:
-        amount = 10
-    try:
-        amount = int(amount)
-
-        if amount <= 10:
-            now = "Done"
-        elif amount <= 50:
-            now = "Thats all?"
-        elif amount >= 90:
-            now = "Big clear, buddy"
-        elif amount >= 50:
-            now = "Good cleaning"
-
-        cln = discord.Embed(title = f'Messages cleared: {amount}. {now}', color = 0xFF3861)
-        await ctx.channel.purge(limit = amount)
-        await ctx.send(embed = cln)
-    except:
-        err = discord.Embed(colour = 0xdaf806, title = "")
-        err.add_field(
-            name = "Unable to execute!",
-            value = "You must indicate the number of messages after this command")
-
         await ctx.send(embed = err)
 
 token = os.environ.get('BOT_TOKEN')
